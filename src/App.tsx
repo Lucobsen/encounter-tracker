@@ -3,32 +3,8 @@ import { useState } from "react";
 import { Creature, ICreature } from "./components/Creature";
 import { NewCreatureRow } from "./components/NewCreatureRow";
 
-const creatures: ICreature[] = [
-  {
-    initative: "12",
-    name: "Gobo",
-    hp: "7",
-  },
-  {
-    initative: "21",
-    name: "Hero Abel",
-    hp: "102",
-  },
-  {
-    initative: "9",
-    name: "Hero Cain",
-    hp: "73",
-  },
-];
-
 const App = () => {
-  const [creatureList, setCreatureList] = useState(
-    creatures.sort(
-      (creatureA, creatureB) =>
-        Number.parseInt(creatureB.initative) -
-        Number.parseInt(creatureA.initative)
-    )
-  );
+  const [creatureList, setCreatureList] = useState<ICreature[]>([]);
 
   const handleAdd = (newCreature: ICreature) =>
     setCreatureList(
