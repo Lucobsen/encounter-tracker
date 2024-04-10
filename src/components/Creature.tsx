@@ -16,12 +16,14 @@ interface ICreatureProps {
 export const Creature = ({ creature, onDelete }: ICreatureProps) => {
   const [creatureState, setCreatureState] = useState(creature);
 
+  // TODO: need to sort on update
   const handleInitativeChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
       initative: newValue,
     });
 
+  // TODO: need to sort on update
   const handleNameChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
@@ -29,10 +31,10 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
     });
 
   return (
-    <ListItem disableGutters>
+    <ListItem disableGutters disablePadding sx={{ pb: 2 }}>
       <Box border="1px solid black" borderRadius={2} p={1}>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item xs={2} p={0}>
+        <Grid container direction="row">
+          <Grid item xs={2}>
             <TextField
               size="small"
               type="number"
@@ -43,7 +45,10 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
               placeholder="Init"
             />
           </Grid>
-          <Grid item xs={8}>
+
+          <Grid item xs={0.5}></Grid>
+
+          <Grid item xs={8.5}>
             <TextField
               size="small"
               type="text"
@@ -54,7 +59,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
               placeholder="Update creature name"
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <IconButton
               sx={{ color: "#d60202" }}
               onClick={() =>

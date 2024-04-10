@@ -16,7 +16,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);
 
   return (
-    <Grid container direction="row" spacing={1} alignItems="center">
+    <Grid container direction="row">
       <Grid item xs={2}>
         <TextField
           size="small"
@@ -30,7 +30,8 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
           placeholder="Init"
         />
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={0.5}></Grid>
+      <Grid item xs={8.5}>
         <TextField
           size="small"
           type="text"
@@ -43,7 +44,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
           placeholder="Add creature name"
         />
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={1}>
         <IconButton
           disabled={!newCreature}
           sx={{ color: "green" }}
