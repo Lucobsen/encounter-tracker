@@ -1,9 +1,9 @@
 import { Container, List } from "@mui/material";
-import { useState } from "react";
 import { Creature, ICreature } from "./components/Creature";
 import { NewCreatureRow } from "./components/NewCreatureRow";
 import { NavBar } from "./components/AppBar";
 import { SnackbarProvider } from "notistack";
+import { useLocalStorage } from "usehooks-ts";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -13,7 +13,10 @@ const sortCreatures = (creatures: ICreature[]) =>
   );
 
 const App = () => {
-  const [creatureList, setCreatureList] = useState<ICreature[]>([]);
+  const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
+    "encounter",
+    []
+  );
 
   const handleAdd = (newCreature: ICreature) =>
     setCreatureList(sortCreatures([...creatureList, newCreature]));
