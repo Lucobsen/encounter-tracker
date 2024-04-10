@@ -46,6 +46,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
       <Grid item xs={2}>
         <IconButton
           disabled={!newCreature}
+          sx={{ color: "green" }}
           onClick={() => {
             const noInit =
               newCreature.initative === undefined ||
