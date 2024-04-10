@@ -1,8 +1,7 @@
 import { Box, Grid, IconButton, ListItem, TextField } from "@mui/material";
 import { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Conditions } from "./Conditions";
-
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 export interface ICreature {
   initative: string;
   name: string;
@@ -57,11 +56,12 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
           </Grid>
           <Grid item xs={2}>
             <IconButton
+              sx={{ color: "#d60202" }}
               onClick={() =>
                 onDelete(creatureState.name, creatureState.initative)
               }
             >
-              <DeleteIcon />
+              <DeleteOutlineIcon />
             </IconButton>
           </Grid>
         </Grid>

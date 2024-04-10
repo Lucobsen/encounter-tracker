@@ -31,7 +31,7 @@ export const ConditionIcon = ({
       sx={{
         height: 16,
         width: 16,
-        opacity: isActive ? 1 : 0.5,
+        opacity: isActive ? 1 : 0.2,
       }}
     >
       {icon}
