@@ -1,24 +1,9 @@
-import {
-  Container,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { Container, List, Typography } from "@mui/material";
 import { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Creature, ICreature } from "./components/Creature";
+import { NewCreatureRow } from "./components/NewCreatureRow";
 
-interface Creature {
-  initative: string;
-  name: string;
-  hp?: string;
-}
-
-const creatures: Creature[] = [
+const creatures: ICreature[] = [
   {
     initative: "12",
     name: "Gobo",
@@ -37,123 +22,49 @@ const creatures: Creature[] = [
 ];
 
 const App = () => {
-  const [creatureList, setCreatureList] = useState(creatures);
-  const [newCreature, setNewCreature] = useState("");
+  const [creatureList, setCreatureList] = useState(
+    creatures.sort(
+      (creatureA, creatureB) =>
+        Number.parseInt(creatureB.initative) -
+        Number.parseInt(creatureA.initative)
+    )
+  );
 
-  const handleInitativeChange = (
-    newValue: string,
-    name: string,
-    initative: string
-  ) => {
-    const tempCreatures = [...creatureList];
-    const index = tempCreatures.findIndex(
-      (creature) => creature.name === name && creature.initative === initative
+  const handleAdd = (newCreature: ICreature) =>
+    setCreatureList(
+      [...creatureList, newCreature].sort(
+        (creatureA, creatureB) =>
+          Number.parseInt(creatureB.initative) -
+          Number.parseInt(creatureA.initative)
+      )
     );
-
-    if (index >= 0) {
-      tempCreatures[index] = {
-        ...tempCreatures[index],
-        initative: newValue,
-      };
-
-      setCreatureList(tempCreatures);
-    }
-  };
-
-  const handleNameChange = (
-    newValue: string,
-    name: string,
-    initative: string
-  ) => {
-    const tempCreatures = [...creatureList];
-    const index = tempCreatures.findIndex(
-      (creature) => creature.name === name && creature.initative === initative
-    );
-
-    if (index >= 0) {
-      tempCreatures[index] = {
-        ...tempCreatures[index],
-        name: newValue,
-      };
-
-      setCreatureList(tempCreatures);
-    }
-  };
 
   const handleDelete = (name: string, initative: string) => {
     const tempList = creatureList.filter(
       (creature) => creature.name !== name && creature.initative !== initative
     );
 
-    setCreatureList(tempList);
-  };
-
-  const handleAdd = () => {
-    setCreatureList([
-      ...creatureList,
-      {
-        name: newCreature,
-        initative: "0",
-      },
-    ]);
-
-    setNewCreature("");
+    setCreatureList(
+      tempList.sort(
+        (creatureA, creatureB) =>
+          Number.parseInt(creatureB.initative) -
+          Number.parseInt(creatureA.initative)
+      )
+    );
   };
 
   return (
     <Container sx={{ p: 2 }}>
       <Typography variant="h5">TTRPG Combat Tracker</Typography>
       <List>
-        {creatureList.map(({ name, initative }, index) => (
-          <ListItem key={`${initative}-${name}-${index}`} disableGutters>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <Grid item xs={2}>
-                <TextField
-                  size="small"
-                  type="number"
-                  fullWidth
-                  onChange={({ target }) =>
-                    handleInitativeChange(target.value, name, initative)
-                  }
-                  value={initative}
-                  variant="outlined"
-                  placeholder="Update creature initative"
-                />
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  size="small"
-                  type="text"
-                  fullWidth
-                  onChange={({ target }) =>
-                    handleNameChange(target.value, name, initative)
-                  }
-                  value={name}
-                  variant="outlined"
-                  placeholder="Update creature name"
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <IconButton onClick={() => handleDelete(name, initative)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </ListItem>
-        ))}
-        <Stack direction="row">
-          <TextField
-            size="small"
-            fullWidth
-            value={newCreature}
-            onChange={({ target }) => setNewCreature(target.value)}
-            variant="outlined"
-            placeholder="Add new creature"
+        {creatureList.map((creature, index) => (
+          <Creature
+            key={`${creature.initative}-${creature.name}-${index}`}
+            creature={creature}
+            onDelete={(name, initative) => handleDelete(name, initative)}
           />
-          <IconButton onClick={() => handleAdd()}>
-            <AddIcon />
-          </IconButton>
-        </Stack>
+        ))}
+        <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
       </List>
     </Container>
   );
