@@ -25,85 +25,65 @@ type Condition = {
 const conditions: Condition[] = [
   {
     label: "Blinded",
-    icon: <BlindIcon sx={{ fontSize: 16 }} style={{ color: "#000" }} />,
+    icon: <BlindIcon sx={{ fontSize: 16, color: "#000" }} />,
   },
   {
     label: "Charmed",
-    icon: <FavoriteIcon sx={{ fontSize: 16 }} style={{ color: "#fc03f0" }} />,
+    icon: <FavoriteIcon sx={{ fontSize: 16, color: "#fc03f0" }} />,
   },
   {
     label: "Deafened",
-    icon: (
-      <HearingDisabledIcon sx={{ fontSize: 16 }} style={{ color: "#7d7d7d" }} />
-    ),
+    icon: <HearingDisabledIcon sx={{ fontSize: 16, color: "#7d7d7d" }} />,
   },
   {
     label: "Exhausted",
-    icon: (
-      <HeartBrokenIcon sx={{ fontSize: 16 }} style={{ color: "#fc0303" }} />
-    ),
+    icon: <HeartBrokenIcon sx={{ fontSize: 16, color: "#fc0303" }} />,
   },
   {
     label: "Frightened",
-    icon: (
-      <CoronavirusIcon sx={{ fontSize: 16 }} style={{ color: "#7400d4" }} />
-    ),
+    icon: <CoronavirusIcon sx={{ fontSize: 16, color: "#7400d4" }} />,
   },
   {
     label: "Grappled",
-    icon: (
-      <SignLanguageIcon sx={{ fontSize: 16 }} style={{ color: "#00701a" }} />
-    ),
+    icon: <SignLanguageIcon sx={{ fontSize: 16, color: "#00701a" }} />,
   },
   {
     label: "Incapacitated",
-    icon: (
-      <PsychologyAltIcon sx={{ fontSize: 16 }} style={{ color: "#050bb3" }} />
-    ),
+    icon: <PsychologyAltIcon sx={{ fontSize: 16, color: "#050bb3" }} />,
   },
   {
     label: "Invisible",
-    icon: (
-      <PeopleOutlineIcon sx={{ fontSize: 16 }} style={{ color: "#81ccf7" }} />
-    ),
+    icon: <PeopleOutlineIcon sx={{ fontSize: 16, color: "#81ccf7" }} />,
   },
   {
     label: "Paralyzed",
-    icon: <BoltIcon sx={{ fontSize: 16 }} style={{ color: "#dbb435" }} />,
+    icon: <BoltIcon sx={{ fontSize: 16, color: "#dbb435" }} />,
   },
   {
     label: "Petrified",
-    icon: (
-      <AccessibilityIcon sx={{ fontSize: 16 }} style={{ color: "#404040" }} />
-    ),
+    icon: <AccessibilityIcon sx={{ fontSize: 16, color: "#404040" }} />,
   },
   {
     label: "Poisoned",
-    icon: <ScienceIcon sx={{ fontSize: 16 }} style={{ color: "#538222" }} />,
+    icon: <ScienceIcon sx={{ fontSize: 16, color: "#538222" }} />,
   },
   {
     label: "Prone",
-    icon: (
-      <KeyboardArrowDownIcon
-        sx={{ fontSize: 16 }}
-        style={{ color: "#de8410" }}
-      />
-    ),
+    icon: <KeyboardArrowDownIcon sx={{ fontSize: 16, color: "#de8410" }} />,
   },
   {
     label: "Restrained",
-    icon: <LinkIcon sx={{ fontSize: 16 }} style={{ color: "#850922" }} />,
+    icon: <LinkIcon sx={{ fontSize: 16, color: "#850922" }} />,
   },
   {
     label: "Stunned",
-    icon: <HighlightIcon sx={{ fontSize: 16 }} style={{ color: "#c3ff00" }} />,
+    icon: <HighlightIcon sx={{ fontSize: 16, color: "#c3ff00" }} />,
   },
   {
     label: "Unconscious",
     icon: (
       <AirlineSeatIndividualSuiteIcon
-        sx={{ fontSize: 16 }}
-        style={{ color: "##572203" }}
+        sx={{ fontSize: 16, color: "##572203" }}
       />
     ),
   },
