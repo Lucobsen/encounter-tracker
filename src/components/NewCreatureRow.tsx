@@ -8,10 +8,12 @@ interface INewCreatureRowProps {
 }
 
 export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
-  const initalState = {
+  const initalState: ICreature = {
     id: crypto.randomUUID(),
     name: "",
     initative: "",
+    isHidden: false,
+    conditions: [],
   };
 
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);

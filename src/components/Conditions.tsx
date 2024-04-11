@@ -1,4 +1,6 @@
 import { Stack } from "@mui/material";
+import { ConditionIcon } from "./ConditionIcon";
+import { useSnackbar } from "notistack";
 import BlindIcon from "@mui/icons-material/Blind";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SignLanguageIcon from "@mui/icons-material/SignLanguage";
@@ -14,8 +16,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LinkIcon from "@mui/icons-material/Link";
 import HighlightIcon from "@mui/icons-material/Highlight";
 import AirlineSeatIndividualSuiteIcon from "@mui/icons-material/AirlineSeatIndividualSuite";
-import { ConditionIcon } from "./ConditionIcon";
-import { useSnackbar } from "notistack";
 
 type Condition = {
   label: string;
@@ -24,63 +24,63 @@ type Condition = {
 
 const conditions: Condition[] = [
   {
-    label: "Blinded",
+    label: "BLINDED",
     icon: <BlindIcon sx={{ fontSize: 16, color: "#000" }} />,
   },
   {
-    label: "Charmed",
+    label: "CHARMED",
     icon: <FavoriteIcon sx={{ fontSize: 16, color: "#fc03f0" }} />,
   },
   {
-    label: "Deafened",
+    label: "DEAFENED",
     icon: <HearingDisabledIcon sx={{ fontSize: 16, color: "#7d7d7d" }} />,
   },
   {
-    label: "Exhausted",
+    label: "EXHAUSTED",
     icon: <HeartBrokenIcon sx={{ fontSize: 16, color: "#fc0303" }} />,
   },
   {
-    label: "Frightened",
+    label: "FRIGHTENED",
     icon: <CoronavirusIcon sx={{ fontSize: 16, color: "#7400d4" }} />,
   },
   {
-    label: "Grappled",
+    label: "GRAPPLED",
     icon: <SignLanguageIcon sx={{ fontSize: 16, color: "#00701a" }} />,
   },
   {
-    label: "Incapacitated",
+    label: "INCAPACITATED",
     icon: <PsychologyAltIcon sx={{ fontSize: 16, color: "#050bb3" }} />,
   },
   {
-    label: "Invisible",
+    label: "INVISIBLE",
     icon: <PeopleOutlineIcon sx={{ fontSize: 16, color: "#81ccf7" }} />,
   },
   {
-    label: "Paralyzed",
+    label: "PARALYZED",
     icon: <BoltIcon sx={{ fontSize: 16, color: "#dbb435" }} />,
   },
   {
-    label: "Petrified",
+    label: "PETRIFIED",
     icon: <AccessibilityIcon sx={{ fontSize: 16, color: "#404040" }} />,
   },
   {
-    label: "Poisoned",
+    label: "POISONED",
     icon: <ScienceIcon sx={{ fontSize: 16, color: "#538222" }} />,
   },
   {
-    label: "Prone",
+    label: "PRONE",
     icon: <KeyboardArrowDownIcon sx={{ fontSize: 16, color: "#de8410" }} />,
   },
   {
-    label: "Restrained",
+    label: "RESTRAINED",
     icon: <LinkIcon sx={{ fontSize: 16, color: "#850922" }} />,
   },
   {
-    label: "Stunned",
+    label: "STUNNED",
     icon: <HighlightIcon sx={{ fontSize: 16, color: "#c3ff00" }} />,
   },
   {
-    label: "Unconscious",
+    label: "UNCONCIOUS",
     icon: (
       <AirlineSeatIndividualSuiteIcon
         sx={{ fontSize: 16, color: "##572203" }}
@@ -91,9 +91,15 @@ const conditions: Condition[] = [
 
 interface IConditionProps {
   name: string;
+  currentConditions: string[];
+  onUpdate: (condition: string) => void;
 }
 
-export const Conditions = ({ name }: IConditionProps) => {
+export const Conditions = ({
+  name,
+  currentConditions,
+  onUpdate,
+}: IConditionProps) => {
   const { enqueueSnackbar } = useSnackbar();
 
   return (
@@ -102,11 +108,17 @@ export const Conditions = ({ name }: IConditionProps) => {
         <ConditionIcon
           key={`${label}-${index}`}
           label={label}
-          name={name}
           icon={icon}
-          updateCondition={(message) =>
-            enqueueSnackbar(message, { variant: "info" })
-          }
+          isActive={currentConditions.includes(label)}
+          updateCondition={() => {
+            enqueueSnackbar(
+              `${name} is ${
+                !currentConditions.includes(label) ? "now" : "no longer"
+              } ${label}`,
+              { variant: "info" }
+            );
+            onUpdate(label);
+          }}
         />
       ))}
     </Stack>
