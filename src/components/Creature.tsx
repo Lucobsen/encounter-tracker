@@ -27,9 +27,15 @@ interface ICreatureProps {
   creature: ICreature;
   onDelete: (deletedCreatureId: string) => void;
   onUpdate: (updatedCreature: ICreature) => void;
+  hasCurrentTurn: boolean;
 }
 
-export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
+export const Creature = ({
+  onUpdate,
+  creature,
+  onDelete,
+  hasCurrentTurn = false,
+}: ICreatureProps) => {
   const { id, conditions, name, initative, isHidden, hp } = creature;
   const { palette } = useTheme();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -69,6 +75,9 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
           border={`1px solid ${palette.mode === "light" ? "#000" : "#fff"}`}
           borderRadius={2}
           p={1}
+          boxShadow={
+            hasCurrentTurn ? `0 0 8px 2px ${palette.primary.main}` : "none"
+          }
         >
           <Grid container direction="row">
             <Grid item xs={1}>

@@ -2,6 +2,7 @@ import {
   AppBar,
   Grid,
   IconButton,
+  Stack,
   TextField,
   Toolbar,
   useTheme,
@@ -9,12 +10,15 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { ICreature } from "./Creature";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 interface INewCreatureRowProps {
   onAdd: (newCreature: ICreature) => void;
+  changeTurn: (step: -1 | 1) => void;
 }
 
-export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
+export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
   const initalState: ICreature = {
     id: crypto.randomUUID(),
     name: "",
@@ -32,7 +36,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
       sx={{
         top: "auto",
         bottom: 0,
-        borderTop: `2px solid ${palette.mode === "light" ? "#000" : "#fff"}`,
+        borderTop: `1px solid ${palette.mode === "light" ? "#000" : "#fff"}`,
       }}
     >
       <Toolbar
@@ -40,7 +44,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
           backgroundColor: palette.mode === "light" ? "#fff" : "#121212",
         }}
       >
-        <Grid container direction="row">
+        <Grid container direction="row" alignItems="center">
           <Grid item xs={2}>
             <TextField
               size="small"
@@ -57,7 +61,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
 
           <Grid item xs={0.5}></Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <TextField
               size="small"
               type="text"
@@ -111,6 +115,24 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
             >
               <AddIcon />
             </IconButton>
+          </Grid>
+
+          <Grid item xs={1}>
+            <Stack>
+              <IconButton
+                sx={{ color: palette.primary.main, p: 0 }}
+                onClick={() => changeTurn(-1)}
+              >
+                <ArrowDropUpIcon />
+              </IconButton>
+
+              <IconButton
+                onClick={() => changeTurn(1)}
+                sx={{ color: palette.primary.main, p: 0 }}
+              >
+                <ArrowDropDownIcon />
+              </IconButton>
+            </Stack>
           </Grid>
         </Grid>
       </Toolbar>
