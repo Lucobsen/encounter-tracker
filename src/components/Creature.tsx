@@ -1,5 +1,12 @@
-import { Box, Grid, IconButton, ListItem, TextField } from "@mui/material";
-import { useState } from "react";
+import {
+  Box,
+  Grid,
+  IconButton,
+  ListItem,
+  TextField,
+  debounce,
+} from "@mui/material";
+import { useCallback, useState } from "react";
 import { Conditions } from "./Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -22,29 +29,16 @@ interface ICreatureProps {
 }
 
 export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
+  const { id, conditions, name, initative, isHidden, hp } = creature;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [creatureState, setCreatureState] = useState(creature);
+  const debouncedChangeHandler = useCallback(debounce(onUpdate, 1000), []);
 
-  const handleInitativeChange = (newValue: string) =>
-    setCreatureState({
-      ...creatureState,
-      initative: newValue,
-    });
+  const handleUpdate = (updatedCreature: ICreature) =>
+    debouncedChangeHandler(updatedCreature);
 
-  const handleNameChange = (newValue: string) =>
-    setCreatureState({
-      ...creatureState,
-      name: newValue,
-    });
-
-  const handleHpChange = (newValue: string) =>
-    setCreatureState({
-      ...creatureState,
-      hp: newValue,
-    });
-
+  // TODO: better way to add/remove elements from an array???
   const handleConditionChange = (condition: string) => {
-    const tempConditions = [...creature.conditions];
+    const tempConditions = [...conditions];
     const index = tempConditions.findIndex(
       (currentCondition) => currentCondition === condition
     );
@@ -67,7 +61,7 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
       <ListItem
         disableGutters
         disablePadding
-        sx={{ pb: 2, opacity: creature.isHidden ? 0.2 : 1 }}
+        sx={{ pb: 2, opacity: isHidden ? 0.2 : 1 }}
       >
         <Box border="1px solid black" borderRadius={2} p={1}>
           <Grid container direction="row">
@@ -76,30 +70,32 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
                 size="small"
                 type="number"
                 fullWidth
-                onChange={({ target }) => handleInitativeChange(target.value)}
-                value={creatureState.initative}
+                onChange={({ target }) =>
+                  handleUpdate({ ...creature, initative: target.value })
+                }
+                defaultValue={initative}
                 variant="standard"
                 placeholder="Init"
-                onBlur={() => onUpdate(creatureState)}
               />
             </Grid>
 
             <Grid item xs={0.5}></Grid>
 
-            <Grid item xs={creature.hp !== undefined ? 7 : 8.5}>
+            <Grid item xs={hp !== undefined ? 7 : 8.5}>
               <TextField
                 size="small"
                 type="text"
                 fullWidth
-                onChange={({ target }) => handleNameChange(target.value)}
-                value={creatureState.name}
+                onChange={({ target }) =>
+                  handleUpdate({ ...creature, name: target.value })
+                }
+                defaultValue={name}
                 variant="standard"
                 placeholder="Update creature name"
-                onBlur={() => onUpdate(creatureState)}
               />
             </Grid>
 
-            {creature.hp !== undefined && (
+            {hp !== undefined && (
               <>
                 <Grid item xs={0.5}></Grid>
 
@@ -108,11 +104,12 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
                     size="small"
                     type="number"
                     fullWidth
-                    onChange={({ target }) => handleHpChange(target.value)}
-                    value={creatureState.hp}
+                    onChange={({ target }) =>
+                      handleUpdate({ ...creature, hp: target.value })
+                    }
+                    defaultValue={hp}
                     variant="standard"
                     placeholder="HP"
-                    onBlur={() => onUpdate(creatureState)}
                   />
                 </Grid>
               </>
@@ -123,11 +120,9 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
                 sx={{
                   color: "#1976d2",
                 }}
-                onClick={() =>
-                  onUpdate({ ...creature, isHidden: !creature.isHidden })
-                }
+                onClick={() => onUpdate({ ...creature, isHidden: !isHidden })}
               >
-                {creature.isHidden ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                {isHidden ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
             </Grid>
 
@@ -142,8 +137,8 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
           </Grid>
 
           <Conditions
-            currentConditions={creature.conditions}
-            name={creature.name}
+            currentConditions={conditions}
+            name={name}
             onUpdate={(condition) => handleConditionChange(condition)}
           />
         </Box>
@@ -153,10 +148,10 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
-          onDelete(creatureState.id);
+          onDelete(id);
           setIsDeleteModalOpen(false);
         }}
-        name={creature.name}
+        name={name}
       />
     </>
   );
