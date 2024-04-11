@@ -1,7 +1,7 @@
 import { Container, List } from "@mui/material";
 import { Creature, ICreature } from "./components/Creature";
 import { NewCreatureRow } from "./components/NewCreatureRow";
-import { NavBar } from "./components/AppBar";
+import { NavBar } from "./components/NavBar";
 import { SnackbarProvider } from "notistack";
 import { useLocalStorage } from "usehooks-ts";
 
