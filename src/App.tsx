@@ -12,6 +12,7 @@ import { SnackbarProvider } from "notistack";
 import { useLocalStorage } from "usehooks-ts";
 import { useMemo } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 interface IRound {
   round: number;
@@ -163,6 +164,7 @@ const App = () => {
           onAdd={(newCreature) => handleAdd(newCreature)}
         />
         <Analytics />
+        <SpeedInsights />
       </SnackbarProvider>
     </ThemeProvider>
   );
