@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  ListItem,
-  Modal,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, ListItem, TextField } from "@mui/material";
 import { useState } from "react";
 import { Conditions } from "./Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -22,6 +12,7 @@ export interface ICreature {
   name: string;
   hp?: string;
   isHidden: boolean;
+  conditions: string[];
 }
 
 interface ICreatureProps {
@@ -51,6 +42,25 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
       ...creatureState,
       hp: newValue,
     });
+
+  const handleConditionChange = (condition: string) => {
+    const tempConditions = [...creature.conditions];
+    const index = tempConditions.findIndex(
+      (currentCondition) => currentCondition === condition
+    );
+
+    const newConditions =
+      index >= 0
+        ? tempConditions.filter(
+            (currentCondition) => condition !== currentCondition
+          )
+        : [...tempConditions, condition];
+
+    onUpdate({
+      ...creature,
+      conditions: newConditions,
+    });
+  };
 
   return (
     <>
@@ -130,7 +140,12 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
               </IconButton>
             </Grid>
           </Grid>
-          <Conditions name={creature.name} />
+
+          <Conditions
+            currentConditions={creature.conditions}
+            name={creature.name}
+            onUpdate={(condition) => handleConditionChange(condition)}
+          />
         </Box>
       </ListItem>
 

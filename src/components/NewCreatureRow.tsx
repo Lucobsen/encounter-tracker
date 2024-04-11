@@ -13,6 +13,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
     name: "",
     initative: "",
     isHidden: false,
+    conditions: [],
   };
 
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);

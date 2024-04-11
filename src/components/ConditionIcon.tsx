@@ -1,33 +1,23 @@
 import { IconButton } from "@mui/material";
-import { useState } from "react";
 
 interface IConditionIconProps {
   icon: JSX.Element;
   label: string;
-  name: string;
-  updateCondition: (message: string) => void;
+  isActive: boolean;
+  updateCondition: () => void;
 }
 
 export const ConditionIcon = ({
   label,
   updateCondition,
   icon,
-  name,
+  isActive,
 }: IConditionIconProps) => {
-  const [isActive, setIsActive] = useState(false);
-
-  const handleClick = (newActiveStatus: boolean) => {
-    updateCondition(
-      `${name} is ${newActiveStatus ? "now" : "no longer"} ${label}`
-    );
-    setIsActive(newActiveStatus);
-  };
-
   return (
     <IconButton
       size="small"
       title={label}
-      onClick={() => handleClick(!isActive)}
+      onClick={updateCondition}
       sx={{
         height: 16,
         width: 16,
