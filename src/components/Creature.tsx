@@ -32,17 +32,25 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
   const [creatureState, setCreatureState] = useState(creature);
 
   // TODO: need to sort on update
+  // TODO: need to save on update
   const handleInitativeChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
       initative: newValue,
     });
 
-  // TODO: need to sort on update
+  // TODO: need to save on update
   const handleNameChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
       name: newValue,
+    });
+
+  // TODO: need to save on update
+  const handleHpChange = (newValue: string) =>
+    setCreatureState({
+      ...creatureState,
+      hp: newValue,
     });
 
   return (
@@ -54,7 +62,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
       >
         <Box border="1px solid black" borderRadius={2} p={1}>
           <Grid container direction="row">
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <TextField
                 size="small"
                 type="number"
@@ -68,7 +76,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
 
             <Grid item xs={0.5}></Grid>
 
-            <Grid item xs={7.5}>
+            <Grid item xs={creature.hp !== undefined ? 7 : 8.5}>
               <TextField
                 size="small"
                 type="text"
@@ -79,6 +87,24 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
                 placeholder="Update creature name"
               />
             </Grid>
+
+            {creature.hp !== undefined && (
+              <>
+                <Grid item xs={0.5}></Grid>
+
+                <Grid item xs={1}>
+                  <TextField
+                    size="small"
+                    type="number"
+                    fullWidth
+                    onChange={({ target }) => handleHpChange(target.value)}
+                    value={creatureState.hp}
+                    variant="standard"
+                    placeholder="HP"
+                  />
+                </Grid>
+              </>
+            )}
 
             <Grid item xs={1}>
               <IconButton

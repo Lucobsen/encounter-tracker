@@ -30,8 +30,10 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
           placeholder="Init"
         />
       </Grid>
+
       <Grid item xs={0.5}></Grid>
-      <Grid item xs={8.5}>
+
+      <Grid item xs={6}>
         <TextField
           size="small"
           type="text"
@@ -44,6 +46,23 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
           placeholder="Add creature name"
         />
       </Grid>
+
+      <Grid item xs={0.5}></Grid>
+
+      <Grid item xs={2}>
+        <TextField
+          size="small"
+          type="number"
+          fullWidth
+          onChange={({ target }) =>
+            setNewCreature({ ...newCreature, hp: target.value })
+          }
+          value={newCreature?.hp ?? ""}
+          variant="outlined"
+          placeholder="HP"
+        />
+      </Grid>
+
       <Grid item xs={1}>
         <IconButton
           disabled={!newCreature}
