@@ -28,11 +28,20 @@ const useConditions = (): Condition[] => {
   return [
     {
       label: "BLINDED",
-      icon: <BlindIcon sx={{ fontSize: 16, color: "#000" }} />,
+      icon: (
+        <BlindIcon
+          sx={{
+            fontSize: 16,
+            color: palette.mode === "light" ? "#000" : "#fff",
+          }}
+        />
+      ),
     },
     {
       label: "CHARMED",
-      icon: <FavoriteIcon sx={{ fontSize: 16, color: "#fc03f0" }} />,
+      icon: (
+        <FavoriteIcon sx={{ fontSize: 16, color: palette.secondary.main }} />
+      ),
     },
     {
       label: "DEAFENED",
@@ -40,7 +49,9 @@ const useConditions = (): Condition[] => {
     },
     {
       label: "EXHAUSTED",
-      icon: <HeartBrokenIcon sx={{ fontSize: 16, color: "#fc0303" }} />,
+      icon: (
+        <HeartBrokenIcon sx={{ fontSize: 16, color: palette.error.main }} />
+      ),
     },
     {
       label: "FRIGHTENED",
@@ -48,15 +59,23 @@ const useConditions = (): Condition[] => {
     },
     {
       label: "GRAPPLED",
-      icon: <SignLanguageIcon sx={{ fontSize: 16, color: "#00701a" }} />,
+      icon: (
+        <SignLanguageIcon sx={{ fontSize: 16, color: palette.success.main }} />
+      ),
     },
     {
       label: "INCAPACITATED",
-      icon: <PsychologyAltIcon sx={{ fontSize: 16, color: "#050bb3" }} />,
+      icon: (
+        <PsychologyAltIcon sx={{ fontSize: 16, color: palette.primary.dark }} />
+      ),
     },
     {
       label: "INVISIBLE",
-      icon: <PeopleOutlineIcon sx={{ fontSize: 16, color: "#81ccf7" }} />,
+      icon: (
+        <PeopleOutlineIcon
+          sx={{ fontSize: 16, color: palette.primary.light }}
+        />
+      ),
     },
     {
       label: "PARALYZED",
@@ -64,11 +83,19 @@ const useConditions = (): Condition[] => {
     },
     {
       label: "PETRIFIED",
-      icon: <AccessibilityIcon sx={{ fontSize: 16, color: "#404040" }} />,
+      icon: (
+        <AccessibilityIcon
+          sx={{
+            fontSize: 16,
+            color:
+              palette.mode === "light" ? palette.grey[800] : palette.grey[400],
+          }}
+        />
+      ),
     },
     {
       label: "POISONED",
-      icon: <ScienceIcon sx={{ fontSize: 16, color: "#538222" }} />,
+      icon: <ScienceIcon sx={{ fontSize: 16, color: palette.success.light }} />,
     },
     {
       label: "PRONE",
