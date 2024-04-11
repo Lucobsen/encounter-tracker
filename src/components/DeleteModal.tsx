@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, Typography, useTheme } from "@mui/material";
 
 interface IDeleteModalProps {
   isOpen: boolean;
@@ -13,6 +13,8 @@ export const DeleteModal = ({
   name,
   onConfirm,
 }: IDeleteModalProps) => {
+  const { palette } = useTheme();
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box
@@ -20,7 +22,7 @@ export const DeleteModal = ({
         p={2}
         borderRadius={2}
         sx={{
-          bgcolor: "#fff",
+          bgcolor: palette.background.default,
           position: "absolute",
           left: "50%",
           top: "50%",

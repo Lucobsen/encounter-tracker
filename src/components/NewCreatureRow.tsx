@@ -1,4 +1,4 @@
-import { Grid, IconButton, TextField } from "@mui/material";
+import { Grid, IconButton, TextField, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { ICreature } from "./Creature";
@@ -16,6 +16,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
     conditions: [],
   };
 
+  const { palette } = useTheme();
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);
 
   return (
@@ -69,7 +70,7 @@ export const NewCreatureRow = ({ onAdd }: INewCreatureRowProps) => {
       <Grid item xs={1}>
         <IconButton
           disabled={!newCreature}
-          sx={{ color: "green" }}
+          sx={{ color: palette.success.main }}
           onClick={() => {
             const noInit =
               newCreature.initative === undefined ||
