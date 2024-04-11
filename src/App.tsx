@@ -21,12 +21,25 @@ const App = () => {
   const handleAdd = (newCreature: ICreature) =>
     setCreatureList(sortCreatures([...creatureList, newCreature]));
 
-  const handleDelete = (name: string, initative: string) => {
+  const handleDelete = (deletedCreatureId: string) => {
     const tempList = creatureList.filter(
-      (creature) => creature.name !== name && creature.initative !== initative
+      (creature) => creature.id !== deletedCreatureId
     );
 
     setCreatureList(sortCreatures(tempList));
+  };
+
+  const handleUpdate = (updatedCreature: ICreature) => {
+    const tempList = [...creatureList];
+
+    const index = tempList.findIndex(
+      (creature) => creature.id === updatedCreature.id
+    );
+
+    if (index >= 0) {
+      tempList[index] = updatedCreature;
+      setCreatureList(sortCreatures(tempList));
+    }
   };
 
   return (
@@ -34,11 +47,12 @@ const App = () => {
       <NavBar />
       <Container sx={{ px: 2, pt: 9 }}>
         <List disablePadding>
-          {creatureList.map((creature, index) => (
+          {creatureList.map((creature) => (
             <Creature
-              key={`${creature.initative}-${creature.name}-${index}`}
+              key={creature.id}
               creature={creature}
-              onDelete={(name, initative) => handleDelete(name, initative)}
+              onUpdate={(updatedCreature) => handleUpdate(updatedCreature)}
+              onDelete={(deletedCreatureId) => handleDelete(deletedCreatureId)}
             />
           ))}
           <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />

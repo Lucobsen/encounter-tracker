@@ -16,6 +16,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export interface ICreature {
+  id: string;
   initative: string;
   name: string;
   hp?: string;
@@ -23,30 +24,27 @@ export interface ICreature {
 
 interface ICreatureProps {
   creature: ICreature;
-  onDelete: (initative: string, name: string) => void;
+  onDelete: (deletedCreatureId: string) => void;
+  onUpdate: (updatedCreature: ICreature) => void;
 }
 
-export const Creature = ({ creature, onDelete }: ICreatureProps) => {
+export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
   const [isHidden, setIsHidden] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [creatureState, setCreatureState] = useState(creature);
 
-  // TODO: need to sort on update
-  // TODO: need to save on update
   const handleInitativeChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
       initative: newValue,
     });
 
-  // TODO: need to save on update
   const handleNameChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
       name: newValue,
     });
 
-  // TODO: need to save on update
   const handleHpChange = (newValue: string) =>
     setCreatureState({
       ...creatureState,
@@ -71,6 +69,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
                 value={creatureState.initative}
                 variant="standard"
                 placeholder="Init"
+                onBlur={() => onUpdate(creatureState)}
               />
             </Grid>
 
@@ -85,6 +84,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
                 value={creatureState.name}
                 variant="standard"
                 placeholder="Update creature name"
+                onBlur={() => onUpdate(creatureState)}
               />
             </Grid>
 
@@ -101,6 +101,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
                     value={creatureState.hp}
                     variant="standard"
                     placeholder="HP"
+                    onBlur={() => onUpdate(creatureState)}
                   />
                 </Grid>
               </>
@@ -163,7 +164,7 @@ export const Creature = ({ creature, onDelete }: ICreatureProps) => {
               fullWidth
               color="error"
               onClick={() => {
-                onDelete(creatureState.name, creatureState.initative);
+                onDelete(creatureState.id);
                 setIsDeleteModalOpen(false);
               }}
             >
