@@ -99,7 +99,7 @@ const App = () => {
   return (
     <ThemeProvider theme={mainTheme}>
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
-        <NavBar />
+        <NavBar round={combatRound.round} />
         <Container sx={{ px: 2, pt: 9, pb: 8 }}>
           <List disablePadding>
             {creatureList.map((creature) => (
