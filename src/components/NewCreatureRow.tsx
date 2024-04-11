@@ -59,7 +59,7 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
             />
           </Grid>
 
-          <Grid item xs={0.5}></Grid>
+          <Grid item xs={0.25}></Grid>
 
           <Grid item xs={5}>
             <TextField
@@ -71,11 +71,11 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
               }
               value={newCreature?.name ?? ""}
               variant="outlined"
-              placeholder="Add creature name"
+              placeholder="Name"
             />
           </Grid>
 
-          <Grid item xs={0.5}></Grid>
+          <Grid item xs={0.25}></Grid>
 
           <Grid item xs={2}>
             <TextField
@@ -90,6 +90,8 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
               placeholder="HP"
             />
           </Grid>
+
+          <Grid item xs={0.25}></Grid>
 
           <Grid item xs={1}>
             <IconButton
@@ -116,6 +118,8 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
               <AddIcon />
             </IconButton>
           </Grid>
+
+          <Grid item xs={0.25}></Grid>
 
           <Grid item xs={1}>
             <Stack>

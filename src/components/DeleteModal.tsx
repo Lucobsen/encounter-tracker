@@ -29,7 +29,12 @@ export const DeleteModal = ({
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Typography textAlign="center" variant="h6" mb={2}>
+        <Typography
+          textAlign="center"
+          variant="h6"
+          mb={2}
+          color={palette.text.primary}
+        >
           {`Do you wish to delete ${name}?`}
         </Typography>
         <Stack direction="row" alignItems="center" spacing={2}>
