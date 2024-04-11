@@ -14,12 +14,14 @@ import { Conditions } from "./Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { DeleteModal } from "./DeleteModal";
 
 export interface ICreature {
   id: string;
   initative: string;
   name: string;
   hp?: string;
+  isHidden: boolean;
 }
 
 interface ICreatureProps {
@@ -29,7 +31,6 @@ interface ICreatureProps {
 }
 
 export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
-  const [isHidden, setIsHidden] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [creatureState, setCreatureState] = useState(creature);
 
@@ -56,7 +57,7 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
       <ListItem
         disableGutters
         disablePadding
-        sx={{ pb: 2, opacity: isHidden ? 0.2 : 1 }}
+        sx={{ pb: 2, opacity: creature.isHidden ? 0.2 : 1 }}
       >
         <Box border="1px solid black" borderRadius={2} p={1}>
           <Grid container direction="row">
@@ -112,9 +113,11 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
                 sx={{
                   color: "#1976d2",
                 }}
-                onClick={() => setIsHidden(!isHidden)}
+                onClick={() =>
+                  onUpdate({ ...creature, isHidden: !creature.isHidden })
+                }
               >
-                {isHidden ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                {creature.isHidden ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
             </Grid>
 
@@ -131,48 +134,15 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
         </Box>
       </ListItem>
 
-      <Modal
-        open={isDeleteModalOpen}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-      >
-        <Box
-          width="80%"
-          p={2}
-          borderRadius={2}
-          sx={{
-            bgcolor: "#fff",
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Typography textAlign="center" variant="h6" mb={2}>
-            {`Do you wish to delete ${creature.name}?`}
-          </Typography>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Button
-              variant="contained"
-              fullWidth
-              color="info"
-              onClick={() => setIsDeleteModalOpen(false)}
-            >
-              No
-            </Button>
-            <Button
-              variant="contained"
-              fullWidth
-              color="error"
-              onClick={() => {
-                onDelete(creatureState.id);
-                setIsDeleteModalOpen(false);
-              }}
-            >
-              Yes
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
+        onConfirm={() => {
+          onDelete(creatureState.id);
+          setIsDeleteModalOpen(false);
+        }}
+        name={creature.name}
+      />
     </>
   );
 };

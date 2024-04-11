@@ -45,7 +45,7 @@ const App = () => {
   return (
     <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
       <NavBar />
-      <Container sx={{ px: 2, pt: 9 }}>
+      <Container sx={{ px: 2, pt: 9, pb: 2 }}>
         <List disablePadding>
           {creatureList.map((creature) => (
             <Creature
