@@ -5,6 +5,7 @@ import {
   ListItem,
   TextField,
   debounce,
+  useTheme,
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { Conditions } from "./Conditions";
@@ -30,6 +31,7 @@ interface ICreatureProps {
 
 export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
   const { id, conditions, name, initative, isHidden, hp } = creature;
+  const { palette } = useTheme();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const debouncedChangeHandler = useCallback(debounce(onUpdate, 1000), []);
 
@@ -63,7 +65,11 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
         disablePadding
         sx={{ pb: 2, opacity: isHidden ? 0.2 : 1 }}
       >
-        <Box border="1px solid black" borderRadius={2} p={1}>
+        <Box
+          border={`1px solid ${palette.mode === "light" ? "#000" : "#fff"}`}
+          borderRadius={2}
+          p={1}
+        >
           <Grid container direction="row">
             <Grid item xs={1}>
               <TextField
@@ -118,7 +124,7 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
             <Grid item xs={1}>
               <IconButton
                 sx={{
-                  color: "#1976d2",
+                  color: palette.primary.main,
                 }}
                 onClick={() => onUpdate({ ...creature, isHidden: !isHidden })}
               >
@@ -128,7 +134,7 @@ export const Creature = ({ onUpdate, creature, onDelete }: ICreatureProps) => {
 
             <Grid item xs={1}>
               <IconButton
-                sx={{ color: "#d60202" }}
+                sx={{ color: palette.error.main }}
                 onClick={() => setIsDeleteModalOpen(true)}
               >
                 <DeleteOutlineIcon />

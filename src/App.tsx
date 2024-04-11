@@ -1,9 +1,16 @@
-import { Container, List } from "@mui/material";
+import {
+  Container,
+  List,
+  ThemeProvider,
+  createTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { Creature, ICreature } from "./components/Creature";
 import { NewCreatureRow } from "./components/NewCreatureRow";
 import { NavBar } from "./components/NavBar";
 import { SnackbarProvider } from "notistack";
 import { useLocalStorage } from "usehooks-ts";
+import { useMemo } from "react";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -13,6 +20,17 @@ const sortCreatures = (creatures: ICreature[]) =>
   );
 
 const App = () => {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const mainTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? "dark" : "light",
+        },
+      }),
+    [prefersDarkMode]
+  );
+
   const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
     "encounter",
     []
@@ -43,22 +61,26 @@ const App = () => {
   };
 
   return (
-    <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
-      <NavBar />
-      <Container sx={{ px: 2, pt: 9, pb: 2 }}>
-        <List disablePadding>
-          {creatureList.map((creature) => (
-            <Creature
-              key={creature.id}
-              creature={creature}
-              onUpdate={(updatedCreature) => handleUpdate(updatedCreature)}
-              onDelete={(deletedCreatureId) => handleDelete(deletedCreatureId)}
-            />
-          ))}
-          <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
-        </List>
-      </Container>
-    </SnackbarProvider>
+    <ThemeProvider theme={mainTheme}>
+      <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
+        <NavBar />
+        <Container sx={{ px: 2, pt: 9, pb: 2 }}>
+          <List disablePadding>
+            {creatureList.map((creature) => (
+              <Creature
+                key={creature.id}
+                creature={creature}
+                onUpdate={(updatedCreature) => handleUpdate(updatedCreature)}
+                onDelete={(deletedCreatureId) =>
+                  handleDelete(deletedCreatureId)
+                }
+              />
+            ))}
+            <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
+          </List>
+        </Container>
+      </SnackbarProvider>
+    </ThemeProvider>
   );
 };
 

@@ -29,7 +29,6 @@ code {
 /* Apply a dark color scheme */
 @media (prefers-color-scheme: dark) {
   html {
-    /* TODO: add black */
-    background-color: #fff;
+    background-color: #121212;
   }
 }

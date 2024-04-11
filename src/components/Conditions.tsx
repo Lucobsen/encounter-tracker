@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { ConditionIcon } from "./ConditionIcon";
 import { useSnackbar } from "notistack";
 import BlindIcon from "@mui/icons-material/Blind";
@@ -22,72 +22,76 @@ type Condition = {
   icon: JSX.Element;
 };
 
-const conditions: Condition[] = [
-  {
-    label: "BLINDED",
-    icon: <BlindIcon sx={{ fontSize: 16, color: "#000" }} />,
-  },
-  {
-    label: "CHARMED",
-    icon: <FavoriteIcon sx={{ fontSize: 16, color: "#fc03f0" }} />,
-  },
-  {
-    label: "DEAFENED",
-    icon: <HearingDisabledIcon sx={{ fontSize: 16, color: "#7d7d7d" }} />,
-  },
-  {
-    label: "EXHAUSTED",
-    icon: <HeartBrokenIcon sx={{ fontSize: 16, color: "#fc0303" }} />,
-  },
-  {
-    label: "FRIGHTENED",
-    icon: <CoronavirusIcon sx={{ fontSize: 16, color: "#7400d4" }} />,
-  },
-  {
-    label: "GRAPPLED",
-    icon: <SignLanguageIcon sx={{ fontSize: 16, color: "#00701a" }} />,
-  },
-  {
-    label: "INCAPACITATED",
-    icon: <PsychologyAltIcon sx={{ fontSize: 16, color: "#050bb3" }} />,
-  },
-  {
-    label: "INVISIBLE",
-    icon: <PeopleOutlineIcon sx={{ fontSize: 16, color: "#81ccf7" }} />,
-  },
-  {
-    label: "PARALYZED",
-    icon: <BoltIcon sx={{ fontSize: 16, color: "#dbb435" }} />,
-  },
-  {
-    label: "PETRIFIED",
-    icon: <AccessibilityIcon sx={{ fontSize: 16, color: "#404040" }} />,
-  },
-  {
-    label: "POISONED",
-    icon: <ScienceIcon sx={{ fontSize: 16, color: "#538222" }} />,
-  },
-  {
-    label: "PRONE",
-    icon: <KeyboardArrowDownIcon sx={{ fontSize: 16, color: "#de8410" }} />,
-  },
-  {
-    label: "RESTRAINED",
-    icon: <LinkIcon sx={{ fontSize: 16, color: "#850922" }} />,
-  },
-  {
-    label: "STUNNED",
-    icon: <HighlightIcon sx={{ fontSize: 16, color: "#c3ff00" }} />,
-  },
-  {
-    label: "UNCONCIOUS",
-    icon: (
-      <AirlineSeatIndividualSuiteIcon
-        sx={{ fontSize: 16, color: "##572203" }}
-      />
-    ),
-  },
-];
+const useConditions = (): Condition[] => {
+  const { palette } = useTheme();
+
+  return [
+    {
+      label: "BLINDED",
+      icon: <BlindIcon sx={{ fontSize: 16, color: "#000" }} />,
+    },
+    {
+      label: "CHARMED",
+      icon: <FavoriteIcon sx={{ fontSize: 16, color: "#fc03f0" }} />,
+    },
+    {
+      label: "DEAFENED",
+      icon: <HearingDisabledIcon sx={{ fontSize: 16, color: "#7d7d7d" }} />,
+    },
+    {
+      label: "EXHAUSTED",
+      icon: <HeartBrokenIcon sx={{ fontSize: 16, color: "#fc0303" }} />,
+    },
+    {
+      label: "FRIGHTENED",
+      icon: <CoronavirusIcon sx={{ fontSize: 16, color: "#7400d4" }} />,
+    },
+    {
+      label: "GRAPPLED",
+      icon: <SignLanguageIcon sx={{ fontSize: 16, color: "#00701a" }} />,
+    },
+    {
+      label: "INCAPACITATED",
+      icon: <PsychologyAltIcon sx={{ fontSize: 16, color: "#050bb3" }} />,
+    },
+    {
+      label: "INVISIBLE",
+      icon: <PeopleOutlineIcon sx={{ fontSize: 16, color: "#81ccf7" }} />,
+    },
+    {
+      label: "PARALYZED",
+      icon: <BoltIcon sx={{ fontSize: 16, color: "#dbb435" }} />,
+    },
+    {
+      label: "PETRIFIED",
+      icon: <AccessibilityIcon sx={{ fontSize: 16, color: "#404040" }} />,
+    },
+    {
+      label: "POISONED",
+      icon: <ScienceIcon sx={{ fontSize: 16, color: "#538222" }} />,
+    },
+    {
+      label: "PRONE",
+      icon: <KeyboardArrowDownIcon sx={{ fontSize: 16, color: "#de8410" }} />,
+    },
+    {
+      label: "RESTRAINED",
+      icon: <LinkIcon sx={{ fontSize: 16, color: "#850922" }} />,
+    },
+    {
+      label: "STUNNED",
+      icon: <HighlightIcon sx={{ fontSize: 16, color: "#c3ff00" }} />,
+    },
+    {
+      label: "UNCONCIOUS",
+      icon: (
+        <AirlineSeatIndividualSuiteIcon
+          sx={{ fontSize: 16, color: "##572203" }}
+        />
+      ),
+    },
+  ];
+};
 
 interface IConditionProps {
   name: string;
@@ -100,6 +104,7 @@ export const Conditions = ({
   currentConditions,
   onUpdate,
 }: IConditionProps) => {
+  const conditions = useConditions();
   const { enqueueSnackbar } = useSnackbar();
 
   return (
