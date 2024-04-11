@@ -12,6 +12,11 @@ import { SnackbarProvider } from "notistack";
 import { useLocalStorage } from "usehooks-ts";
 import { useMemo } from "react";
 
+interface IRound {
+  round: number;
+  activeCreatureId: string;
+}
+
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
     (creatureA, creatureB) =>
@@ -35,6 +40,10 @@ const App = () => {
     "encounter",
     []
   );
+  const [combatRound, setCombatRound] = useLocalStorage<IRound>("round", {
+    round: 1,
+    activeCreatureId: "",
+  });
 
   const handleAdd = (newCreature: ICreature) =>
     setCreatureList(sortCreatures([...creatureList, newCreature]));
@@ -60,6 +69,33 @@ const App = () => {
     }
   };
 
+  const handleTurnChange = (step: -1 | 1) => {
+    const activeCreatureId = combatRound.activeCreatureId;
+    const firstCreatureId = creatureList[0].id;
+
+    // if there is no active creature, set the first creature
+    if (!activeCreatureId) {
+      if (firstCreatureId)
+        setCombatRound({ ...combatRound, activeCreatureId: firstCreatureId });
+    } else {
+      const index = creatureList.findIndex(({ id }) => id === activeCreatureId);
+
+      if (index > 0) {
+        setCombatRound({
+          ...combatRound,
+          activeCreatureId: creatureList[index + step]?.id ?? firstCreatureId,
+        });
+      } else if (index === 0) {
+        setCombatRound({
+          ...combatRound,
+          activeCreatureId:
+            creatureList[step === -1 ? creatureList.length - 1 : step]?.id ??
+            firstCreatureId,
+        });
+      }
+    }
+  };
+
   return (
     <ThemeProvider theme={mainTheme}>
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
@@ -68,6 +104,7 @@ const App = () => {
           <List disablePadding>
             {creatureList.map((creature) => (
               <Creature
+                hasCurrentTurn={combatRound.activeCreatureId === creature.id}
                 key={creature.id}
                 creature={creature}
                 onUpdate={(updatedCreature) => handleUpdate(updatedCreature)}
@@ -78,7 +115,10 @@ const App = () => {
             ))}
           </List>
         </Container>
-        <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
+        <NewCreatureRow
+          changeTurn={handleTurnChange}
+          onAdd={(newCreature) => handleAdd(newCreature)}
+        />
       </SnackbarProvider>
     </ThemeProvider>
   );
