@@ -1,6 +1,6 @@
-# TTRPG Combat Encounter Tracker
+# Combat Chronicle
 
-An app created by Luke Jacobsen.
+An app created by Luke Jacobsen for tracking TTRPG combat encounters.
 
 ## Ideas
 

@@ -28,7 +28,7 @@ export const NavBar = ({ round }: INavBar) => {
             backgroundColor: palette.mode === "light" ? "#fff" : "#121212",
           }}
         >
-          <Typography variant="h5">TTRPG Combat Tracker</Typography>
+          <Typography variant="h5">Combat Chronicle</Typography>
           <Divider
             orientation="vertical"
             sx={{
@@ -36,14 +36,9 @@ export const NavBar = ({ round }: INavBar) => {
               borderColor: palette.mode === "light" ? "#000" : "#fff",
             }}
           />
-          <Stack alignItems="center">
-            <Typography color={palette.error.main} variant="body1">
-              Round
-            </Typography>
-            <Typography color={palette.error.main} variant="subtitle1">
-              {round}
-            </Typography>
-          </Stack>
+          <Typography color={palette.error.main} variant="body1">
+            Round {round}
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
