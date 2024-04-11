@@ -11,6 +11,7 @@ import { NavBar } from "./components/NavBar";
 import { SnackbarProvider } from "notistack";
 import { useLocalStorage } from "usehooks-ts";
 import { useMemo } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 interface IRound {
   round: number;
@@ -161,6 +162,7 @@ const App = () => {
           changeTurn={handleTurnChange}
           onAdd={(newCreature) => handleAdd(newCreature)}
         />
+        <Analytics />
       </SnackbarProvider>
     </ThemeProvider>
   );
