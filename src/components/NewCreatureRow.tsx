@@ -16,9 +16,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 interface INewCreatureRowProps {
   onAdd: (newCreature: ICreature) => void;
   changeTurn: (step: -1 | 1) => void;
+  disableNavigation: boolean;
 }
 
-export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
+export const NewCreatureRow = ({
+  disableNavigation,
+  onAdd,
+  changeTurn,
+}: INewCreatureRowProps) => {
   const initalState: ICreature = {
     id: crypto.randomUUID(),
     name: "",
@@ -29,6 +34,20 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
 
   const { palette } = useTheme();
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);
+
+  const isAddDisabled = () => {
+    const noInit =
+      newCreature.initative === undefined ||
+      newCreature.initative === null ||
+      newCreature.initative === "";
+
+    const noName =
+      newCreature.name === undefined ||
+      newCreature.name === null ||
+      newCreature.name === "";
+
+    return noInit || noName;
+  };
 
   return (
     <AppBar
@@ -95,23 +114,10 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
 
           <Grid item xs={1}>
             <IconButton
-              disabled={!newCreature}
+              disabled={isAddDisabled()}
               sx={{ color: palette.success.main }}
               onClick={() => {
-                const noInit =
-                  newCreature.initative === undefined ||
-                  newCreature.initative === null ||
-                  newCreature.initative === "";
-
-                const noName =
-                  newCreature.name === undefined ||
-                  newCreature.name === null ||
-                  newCreature.name === "";
-
-                if (noName || noInit) return;
-
                 onAdd(newCreature);
-
                 setNewCreature(initalState);
               }}
             >
@@ -124,6 +130,7 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
           <Grid item xs={1}>
             <Stack>
               <IconButton
+                disabled={disableNavigation}
                 sx={{ color: palette.primary.main, p: 0 }}
                 onClick={() => changeTurn(-1)}
               >
@@ -131,6 +138,7 @@ export const NewCreatureRow = ({ onAdd, changeTurn }: INewCreatureRowProps) => {
               </IconButton>
 
               <IconButton
+                disabled={disableNavigation}
                 onClick={() => changeTurn(1)}
                 sx={{ color: palette.primary.main, p: 0 }}
               >

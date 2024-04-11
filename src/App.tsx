@@ -40,9 +40,10 @@ const App = () => {
     "encounter",
     []
   );
+
   const [combatRound, setCombatRound] = useLocalStorage<IRound>("round", {
     round: 1,
-    activeCreatureId: "",
+    activeCreatureId: creatureList[0]?.id ?? "",
   });
 
   const handleAdd = (newCreature: ICreature) =>
@@ -69,37 +70,77 @@ const App = () => {
     }
   };
 
+  const incrementTurn = (
+    currentIndex: number,
+    creatureCount: number,
+    firstCreatureId: string
+  ) => {
+    const nextCreatureId =
+      creatureList[currentIndex + 1]?.id ?? firstCreatureId;
+
+    const round =
+      currentIndex + 1 === creatureCount
+        ? combatRound.round + 1
+        : combatRound.round;
+
+    setCombatRound({
+      round,
+      activeCreatureId: nextCreatureId,
+    });
+  };
+
+  const decrementTurn = (currentIndex: number, creatureCount: number) => {
+    const newRound =
+      currentIndex === 0 ? combatRound.round - 1 : combatRound.round;
+
+    const nextCreatureId =
+      currentIndex === 0
+        ? creatureList[creatureCount - 1]?.id
+        : creatureList[currentIndex - 1]?.id;
+
+    if (newRound === 0) return;
+
+    setCombatRound({
+      activeCreatureId: nextCreatureId,
+      round: newRound,
+    });
+  };
+
   const handleTurnChange = (step: -1 | 1) => {
+    const creatureCount = creatureList.length;
+
+    // is there a list of creatures
+    if (creatureCount === 0)
+      return setCombatRound({
+        round: 1,
+        activeCreatureId: "",
+      });
+
     const activeCreatureId = combatRound.activeCreatureId;
     const firstCreatureId = creatureList[0].id;
 
-    // if there is no active creature, set the first creature
-    if (!activeCreatureId) {
-      if (firstCreatureId)
-        setCombatRound({ ...combatRound, activeCreatureId: firstCreatureId });
-    } else {
-      const index = creatureList.findIndex(({ id }) => id === activeCreatureId);
+    // is the current saved ID present in the list of creatures
+    if (creatureList.find(({ id }) => id === activeCreatureId) === undefined)
+      return setCombatRound({
+        ...combatRound,
+        activeCreatureId: firstCreatureId,
+      });
 
-      if (index > 0) {
-        setCombatRound({
-          ...combatRound,
-          activeCreatureId: creatureList[index + step]?.id ?? firstCreatureId,
-        });
-      } else if (index === 0) {
-        setCombatRound({
-          ...combatRound,
-          activeCreatureId:
-            creatureList[step === -1 ? creatureList.length - 1 : step]?.id ??
-            firstCreatureId,
-        });
-      }
-    }
+    const currentIndex = creatureList.findIndex(
+      ({ id }) => id === activeCreatureId
+    );
+
+    // on increment
+    if (step === 1) incrementTurn(currentIndex, creatureCount, firstCreatureId);
+
+    // on decrement
+    if (step === -1) decrementTurn(currentIndex, creatureCount);
   };
 
   return (
     <ThemeProvider theme={mainTheme}>
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
-        <NavBar />
+        <NavBar round={combatRound.round} />
         <Container sx={{ px: 2, pt: 9, pb: 8 }}>
           <List disablePadding>
             {creatureList.map((creature) => (
@@ -116,6 +157,7 @@ const App = () => {
           </List>
         </Container>
         <NewCreatureRow
+          disableNavigation={creatureList.length === 0}
           changeTurn={handleTurnChange}
           onAdd={(newCreature) => handleAdd(newCreature)}
         />
