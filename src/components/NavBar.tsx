@@ -11,7 +11,6 @@ export const NavBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="fixed"
-        color="transparent"
         sx={{
           color: palette.mode === "light" ? "#000" : "#fff",
           borderBottom: `2px solid ${
@@ -19,7 +18,11 @@ export const NavBar = () => {
           }`,
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            backgroundColor: palette.mode === "light" ? "#fff" : "#121212",
+          }}
+        >
           <Typography variant="h5">TTRPG Combat Tracker</Typography>
         </Toolbar>
       </AppBar>
