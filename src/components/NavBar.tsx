@@ -12,7 +12,7 @@ export const NavBar = () => {
       <AppBar
         position="fixed"
         sx={{
-          color: palette.mode === "light" ? "#000" : "#fff",
+          color: palette.text.primary,
           borderBottom: `2px solid ${
             palette.mode === "light" ? "#000" : "#fff"
           }`,
