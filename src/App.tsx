@@ -64,7 +64,7 @@ const App = () => {
     <ThemeProvider theme={mainTheme}>
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
         <NavBar />
-        <Container sx={{ px: 2, pt: 9, pb: 2 }}>
+        <Container sx={{ px: 2, pt: 9, pb: 8 }}>
           <List disablePadding>
             {creatureList.map((creature) => (
               <Creature
@@ -76,9 +76,9 @@ const App = () => {
                 }
               />
             ))}
-            <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
           </List>
         </Container>
+        <NewCreatureRow onAdd={(newCreature) => handleAdd(newCreature)} />
       </SnackbarProvider>
     </ThemeProvider>
   );
