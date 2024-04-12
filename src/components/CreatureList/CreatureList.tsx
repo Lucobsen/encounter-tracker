@@ -1,5 +1,5 @@
 import { Container, List } from "@mui/material";
-import { Creature, ICreature } from "../Creature";
+import { Creature, ICreature } from "../Creature/Creature";
 import { EmptyState } from "./EmptyState";
 
 interface ICreatureList {

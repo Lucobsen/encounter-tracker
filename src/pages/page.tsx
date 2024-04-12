@@ -1,9 +1,9 @@
-import { ICreature } from "../components/Creature";
+import { ICreature } from "../components/Creature/Creature";
 import { useLocalStorage } from "usehooks-ts";
-import { DesktopWarning } from "../components/DesktopWarning";
-import { NavBar } from "../components/NavBar";
+import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
+import { NavBar } from "../components/NavBar/NavBar";
 import { CreatureList } from "../components/CreatureList/CreatureList";
-import { NewCreatureRow } from "../components/NewCreatureRow";
+import { NewCreatureRow } from "../components/NewCreatureRow/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 
 interface IRound {
@@ -134,6 +134,12 @@ export const Page = () => {
   return (
     <>
       <NavBar
+        onReset={() =>
+          setCombatRound({
+            round: 1,
+            activeCreatureId: creatureList[0]?.id ?? "",
+          })
+        }
         round={combatRound.round}
         hasCreatures={creatureList.length > 0}
       />

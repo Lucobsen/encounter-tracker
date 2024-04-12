@@ -1,18 +1,18 @@
 import { Box, Button, Modal, Stack, Typography, useTheme } from "@mui/material";
 
-interface IDeleteModalProps {
+interface ITextModalProps {
   isOpen: boolean;
   onClose: () => void;
-  name: string;
+  content: string;
   onConfirm: () => void;
 }
 
-export const DeleteModal = ({
+export const TextModal = ({
   isOpen,
   onClose,
-  name,
+  content,
   onConfirm,
-}: IDeleteModalProps) => {
+}: ITextModalProps) => {
   const { palette } = useTheme();
 
   return (
@@ -35,8 +35,9 @@ export const DeleteModal = ({
           mb={2}
           color={palette.text.primary}
         >
-          {`Do you wish to delete ${name}?`}
+          {content}
         </Typography>
+
         <Stack direction="row" alignItems="center" spacing={2}>
           <Button variant="contained" fullWidth color="info" onClick={onClose}>
             No
