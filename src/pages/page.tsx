@@ -42,6 +42,13 @@ export const Page = () => {
     );
 
     setCreatureList(sortCreatures(tempList));
+
+    if (tempList.length === 0) {
+      setCombatRound({
+        round: 1,
+        activeCreatureId: "",
+      });
+    }
   };
 
   const handleUpdate = (updatedCreature: ICreature) => {
