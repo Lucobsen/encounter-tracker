@@ -7,7 +7,7 @@ import {
   debounce,
   useTheme,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Conditions } from "./Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -37,6 +37,8 @@ export const Creature = ({
   hasCurrentTurn = false,
 }: ICreatureProps) => {
   const { id, conditions, name, initative, isHidden, hp } = creature;
+
+  const listItemRef = useRef<HTMLLIElement>(null);
   const { palette } = useTheme();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const debouncedChangeHandler = useCallback(debounce(onUpdate, 1000), []);
@@ -64,9 +66,18 @@ export const Creature = ({
     });
   };
 
+  useEffect(() => {
+    if (hasCurrentTurn === true)
+      window.scrollTo({
+        top: listItemRef.current?.offsetTop,
+        behavior: "smooth",
+      });
+  }, [hasCurrentTurn]);
+
   return (
     <>
       <ListItem
+        ref={listItemRef}
         disableGutters
         disablePadding
         sx={{ pb: 2, opacity: isHidden ? 0.2 : 1 }}
