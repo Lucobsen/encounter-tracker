@@ -1,4 +1,4 @@
-import { Divider, Stack, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,9 +6,10 @@ import Typography from "@mui/material/Typography";
 
 interface INavBar {
   round: number;
+  hasCreatures: boolean;
 }
 
-export const NavBar = ({ round }: INavBar) => {
+export const NavBar = ({ round, hasCreatures }: INavBar) => {
   const { palette } = useTheme();
 
   return (
@@ -17,28 +18,21 @@ export const NavBar = ({ round }: INavBar) => {
         position="fixed"
         sx={{
           color: palette.text.primary,
-          borderBottom: `1px solid ${
-            palette.mode === "light" ? "#000" : "#fff"
-          }`,
+          borderBottom: `1px solid ${palette.text.primary}`,
         }}
       >
         <Toolbar
           sx={{
             justifyContent: "space-between",
-            backgroundColor: palette.mode === "light" ? "#fff" : "#121212",
+            backgroundColor: palette.background.paper,
           }}
         >
           <Typography variant="h5">Combat Chronicle</Typography>
-          <Divider
-            orientation="vertical"
-            sx={{
-              height: "40px",
-              borderColor: palette.mode === "light" ? "#000" : "#fff",
-            }}
-          />
-          <Typography color={palette.error.main} variant="body1">
-            Round {round}
-          </Typography>
+          {hasCreatures && (
+            <Typography color={palette.error.main} variant="body1">
+              Round {round}
+            </Typography>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
