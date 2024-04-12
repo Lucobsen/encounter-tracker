@@ -2,7 +2,7 @@ import { ICreature } from "../components/Creature";
 import { useLocalStorage } from "usehooks-ts";
 import { DesktopWarning } from "../components/DesktopWarning";
 import { NavBar } from "../components/NavBar";
-import { CreatureList } from "../components/CreatureList";
+import { CreatureList } from "../components/CreatureList/CreatureList";
 import { NewCreatureRow } from "../components/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 
@@ -126,7 +126,10 @@ export const Page = () => {
 
   return (
     <>
-      <NavBar round={combatRound.round} />
+      <NavBar
+        round={combatRound.round}
+        hasCreatures={creatureList.length > 0}
+      />
       <CreatureList
         activeCreatureId={combatRound.activeCreatureId}
         creatureList={creatureList}

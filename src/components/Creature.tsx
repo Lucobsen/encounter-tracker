@@ -83,11 +83,17 @@ export const Creature = ({
         sx={{ pb: 2, opacity: isHidden ? 0.2 : 1 }}
       >
         <Box
+          minHeight={60}
+          width="100%"
           border={`1px solid ${palette.mode === "light" ? "#000" : "#fff"}`}
           borderRadius={2}
           p={1}
           boxShadow={
-            hasCurrentTurn ? `0 0 8px 2px ${palette.primary.main}` : "none"
+            hasCurrentTurn
+              ? `0 0 8px 2px ${
+                  hp !== undefined ? palette.error.main : palette.primary.main
+                }`
+              : "none"
           }
         >
           <Grid container direction="row">
