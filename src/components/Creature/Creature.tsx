@@ -8,11 +8,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Conditions } from "./Conditions";
+import { Conditions } from "../Conditions/Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { DeleteModal } from "./DeleteModal";
+import { TextModal } from "../Modals/TextModal";
 
 export interface ICreature {
   id: string;
@@ -176,14 +176,14 @@ export const Creature = ({
         </Box>
       </ListItem>
 
-      <DeleteModal
+      <TextModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           onDelete(id);
           setIsDeleteModalOpen(false);
         }}
-        name={name}
+        content={`Do you wish to delete ${name}?`}
       />
     </>
   );

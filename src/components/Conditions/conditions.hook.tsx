@@ -1,6 +1,3 @@
-import { Stack, useTheme } from "@mui/material";
-import { ConditionIcon } from "./ConditionIcon";
-import { useSnackbar } from "notistack";
 import BlindIcon from "@mui/icons-material/Blind";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SignLanguageIcon from "@mui/icons-material/SignLanguage";
@@ -16,13 +13,14 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LinkIcon from "@mui/icons-material/Link";
 import HighlightIcon from "@mui/icons-material/Highlight";
 import AirlineSeatIndividualSuiteIcon from "@mui/icons-material/AirlineSeatIndividualSuite";
+import { useTheme } from "@mui/material";
 
 type Condition = {
   label: string;
   icon: JSX.Element;
 };
 
-const useConditions = (): Condition[] => {
+export const useConditions = (): Condition[] => {
   const { palette } = useTheme();
 
   return [
@@ -118,41 +116,4 @@ const useConditions = (): Condition[] => {
       ),
     },
   ];
-};
-
-interface IConditionProps {
-  name: string;
-  currentConditions: string[];
-  onUpdate: (condition: string) => void;
-}
-
-export const Conditions = ({
-  name,
-  currentConditions,
-  onUpdate,
-}: IConditionProps) => {
-  const conditions = useConditions();
-  const { enqueueSnackbar } = useSnackbar();
-
-  return (
-    <Stack direction="row" justifyContent="space-between">
-      {conditions.map(({ label, icon }, index) => (
-        <ConditionIcon
-          key={`${label}-${index}`}
-          label={label}
-          icon={icon}
-          isActive={currentConditions.includes(label)}
-          updateCondition={() => {
-            enqueueSnackbar(
-              `${name} is ${
-                !currentConditions.includes(label) ? "now" : "no longer"
-              } ${label}`,
-              { variant: "info" }
-            );
-            onUpdate(label);
-          }}
-        />
-      ))}
-    </Stack>
-  );
 };
