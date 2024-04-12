@@ -17,7 +17,7 @@ export const NavBar = ({ round }: INavBar) => {
         position="fixed"
         sx={{
           color: palette.text.primary,
-          borderBottom: `2px solid ${
+          borderBottom: `1px solid ${
             palette.mode === "light" ? "#000" : "#fff"
           }`,
         }}

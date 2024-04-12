@@ -13,6 +13,7 @@ import { useLocalStorage } from "usehooks-ts";
 import { useMemo } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { DesktopWarning } from "./components/DesktopWarning";
 
 interface IRound {
   round: number;
@@ -37,6 +38,8 @@ const App = () => {
       }),
     [prefersDarkMode]
   );
+
+  const isMobile = useMediaQuery(mainTheme.breakpoints.down("sm"));
 
   const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
     "encounter",
@@ -142,27 +145,37 @@ const App = () => {
   return (
     <ThemeProvider theme={mainTheme}>
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
-        <NavBar round={combatRound.round} />
-        <Container sx={{ px: 2, pt: 9, pb: 8 }}>
-          <List disablePadding>
-            {creatureList.map((creature) => (
-              <Creature
-                hasCurrentTurn={combatRound.activeCreatureId === creature.id}
-                key={creature.id}
-                creature={creature}
-                onUpdate={(updatedCreature) => handleUpdate(updatedCreature)}
-                onDelete={(deletedCreatureId) =>
-                  handleDelete(deletedCreatureId)
-                }
-              />
-            ))}
-          </List>
-        </Container>
-        <NewCreatureRow
-          disableNavigation={creatureList.length === 0}
-          changeTurn={handleTurnChange}
-          onAdd={(newCreature) => handleAdd(newCreature)}
-        />
+        {isMobile ? (
+          <>
+            <NavBar round={combatRound.round} />
+            <Container sx={{ px: 2, pt: 9, pb: 8 }}>
+              <List disablePadding>
+                {creatureList.map((creature) => (
+                  <Creature
+                    hasCurrentTurn={
+                      combatRound.activeCreatureId === creature.id
+                    }
+                    key={creature.id}
+                    creature={creature}
+                    onUpdate={(updatedCreature) =>
+                      handleUpdate(updatedCreature)
+                    }
+                    onDelete={(deletedCreatureId) =>
+                      handleDelete(deletedCreatureId)
+                    }
+                  />
+                ))}
+              </List>
+            </Container>
+            <NewCreatureRow
+              disableNavigation={creatureList.length === 0}
+              changeTurn={handleTurnChange}
+              onAdd={(newCreature) => handleAdd(newCreature)}
+            />
+          </>
+        ) : (
+          <DesktopWarning />
+        )}
         <Analytics />
         <SpeedInsights />
       </SnackbarProvider>
