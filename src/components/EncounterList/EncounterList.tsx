@@ -1,8 +1,8 @@
-import { Button, Container, Stack, useTheme } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { useLocalStorage } from "usehooks-ts";
-import { useNavigate } from "react-router-dom";
 import { ICreature } from "../Creature/Creature";
 import { EmptyState } from "./EmptyState";
+import { EncounterItem } from "../EncounterItem/EncounterItem";
 
 interface Encounter {
   creatures: ICreature[];
@@ -13,11 +13,7 @@ interface Encounter {
 }
 
 export const EncounterList = () => {
-  const { palette } = useTheme();
-  const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
-    "encounter",
-    []
-  );
+  const [creatureList] = useLocalStorage<ICreature[]>("encounter", []);
 
   const importedList: Encounter[] =
     creatureList.length > 0
@@ -37,25 +33,27 @@ export const EncounterList = () => {
     importedList
   );
 
-  const navigate = useNavigate();
+  const handleNameChange = (newName: string, id: string) => {
+    const tempList = [...encounterList];
+    const index = tempList.findIndex((item) => item.id === id);
+
+    if (index >= 0) {
+      tempList[index].name = newName;
+      setEncounterList(tempList);
+    }
+  };
 
   return (
     <Container sx={{ px: 2, pt: 9, pb: 8 }}>
       {encounterList.length > 0 ? (
         <Stack alignItems="center">
           {encounterList.map(({ name, id }) => (
-            <Button
+            <EncounterItem
               key={id}
-              variant="contained"
-              color="info"
-              onClick={() => navigate(`/${id}`)}
-              sx={{
-                color: palette.text.primary,
-                border: `1px solid ${palette.text.primary}`,
-              }}
-            >
-              {name}
-            </Button>
+              id={id}
+              name={name}
+              onUpdate={(newName) => handleNameChange(newName, id)}
+            />
           ))}
         </Stack>
       ) : (
