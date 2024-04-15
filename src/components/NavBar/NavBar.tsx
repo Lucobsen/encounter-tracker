@@ -1,8 +1,7 @@
-import { Button, useTheme } from "@mui/material";
+import { Button, Link, Typography, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { TextModal } from "../Modals/TextModal";
 import { useState } from "react";
 
@@ -32,7 +31,10 @@ export const NavBar = ({ round, hasCreatures, onReset }: INavBar) => {
               backgroundColor: palette.background.paper,
             }}
           >
-            <Typography variant="h5">Combat Chronicle</Typography>
+            <Link href="/" color={palette.text.primary} underline="none">
+              <Typography variant="h5">Combat Chronicle</Typography>
+            </Link>
+
             {hasCreatures && (
               <Button
                 size="small"

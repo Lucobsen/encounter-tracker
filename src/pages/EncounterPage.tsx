@@ -18,7 +18,7 @@ const sortCreatures = (creatures: ICreature[]) =>
       Number.parseInt(creatureA.initative)
   );
 
-export const Page = () => {
+export const EncounterPage = () => {
   const isMobile = useIsMobile();
 
   const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
