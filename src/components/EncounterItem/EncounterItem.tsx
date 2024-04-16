@@ -73,7 +73,7 @@ export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <Stack spacing={4}>
+          <Stack spacing={2}>
             <TextField
               placeholder="Enter encounter name"
               defaultValue={name}
