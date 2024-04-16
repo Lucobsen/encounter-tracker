@@ -3,9 +3,9 @@ import { SnackbarProvider } from "notistack";
 import { useMemo } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { EncounterPage } from "./pages/EncounterPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { EncounterListPage } from "./pages/EncounterListPage";
+import { EncountersPage } from "./pages/EncountersPage";
+import { CreaturesPage } from "./pages/CreaturesPage";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -24,8 +24,8 @@ const App = () => {
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
         <BrowserRouter>
           <Routes>
-            <Route element={<EncounterPage />} path=":id" />
-            <Route element={<EncounterListPage />} path="" />
+            <Route element={<CreaturesPage />} path=":id" />
+            <Route element={<EncountersPage />} path="" />
           </Routes>
         </BrowserRouter>
         <Analytics />
