@@ -5,11 +5,8 @@ import { NavBar } from "../components/NavBar/NavBar";
 import { CreatureList } from "../components/CreatureList/CreatureList";
 import { NewCreatureRow } from "../components/NewCreatureRow/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
-
-interface IRound {
-  round: number;
-  activeCreatureId: string;
-}
+import { useParams } from "react-router-dom";
+import { useEncounterById } from "../api/use-encounters";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -18,19 +15,17 @@ const sortCreatures = (creatures: ICreature[]) =>
       Number.parseInt(creatureA.initative)
   );
 
-export const EncounterPage = () => {
+export const CreaturesPage = () => {
+  let { id } = useParams();
   const isMobile = useIsMobile();
 
+  const { encounter, setEncounterList } = useEncounterById(id ?? "");
   const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
     "encounter",
     []
   );
 
-  const [combatRound, setCombatRound] = useLocalStorage<IRound>("round", {
-    round: 1,
-    activeCreatureId: creatureList[0]?.id ?? "",
-  });
-
+  if (encounter === undefined) return null;
   if (!isMobile) return <DesktopWarning />;
 
   const handleAdd = (newCreature: ICreature) =>
@@ -43,12 +38,8 @@ export const EncounterPage = () => {
 
     setCreatureList(sortCreatures(tempList));
 
-    if (tempList.length === 0) {
-      setCombatRound({
-        round: 1,
-        activeCreatureId: "",
-      });
-    }
+    if (tempList.length === 0)
+      setEncounterList([{ ...encounter, round: 1, activeCreatureId: "" }]);
   };
 
   const handleUpdate = (updatedCreature: ICreature) => {
@@ -74,18 +65,16 @@ export const EncounterPage = () => {
 
     const round =
       currentIndex + 1 === creatureCount
-        ? combatRound.round + 1
-        : combatRound.round;
+        ? encounter.round + 1
+        : encounter.round;
 
-    setCombatRound({
-      round,
-      activeCreatureId: nextCreatureId,
-    });
+    setEncounterList([
+      { ...encounter, round, activeCreatureId: nextCreatureId },
+    ]);
   };
 
   const decrementTurn = (currentIndex: number, creatureCount: number) => {
-    const newRound =
-      currentIndex === 0 ? combatRound.round - 1 : combatRound.round;
+    const newRound = currentIndex === 0 ? encounter.round - 1 : encounter.round;
 
     const nextCreatureId =
       currentIndex === 0
@@ -94,10 +83,9 @@ export const EncounterPage = () => {
 
     if (newRound === 0) return;
 
-    setCombatRound({
-      activeCreatureId: nextCreatureId,
-      round: newRound,
-    });
+    setEncounterList([
+      { ...encounter, round: newRound, activeCreatureId: nextCreatureId },
+    ]);
   };
 
   const handleTurnChange = (step: -1 | 1) => {
@@ -105,20 +93,18 @@ export const EncounterPage = () => {
 
     // is there a list of creatures
     if (creatureCount === 0)
-      return setCombatRound({
-        round: 1,
-        activeCreatureId: "",
-      });
+      return setEncounterList([
+        { ...encounter, round: 1, activeCreatureId: "" },
+      ]);
 
-    const activeCreatureId = combatRound.activeCreatureId;
+    const activeCreatureId = encounter.activeCreatureId;
     const firstCreatureId = creatureList[0].id;
 
     // is the current saved ID present in the list of creatures
     if (creatureList.find(({ id }) => id === activeCreatureId) === undefined)
-      return setCombatRound({
-        ...combatRound,
-        activeCreatureId: firstCreatureId,
-      });
+      return setEncounterList([
+        { ...encounter, activeCreatureId: firstCreatureId },
+      ]);
 
     const currentIndex = creatureList.findIndex(
       ({ id }) => id === activeCreatureId
@@ -135,16 +121,20 @@ export const EncounterPage = () => {
     <>
       <NavBar
         onReset={() =>
-          setCombatRound({
-            round: 1,
-            activeCreatureId: creatureList[0]?.id ?? "",
-          })
+          setEncounterList([
+            {
+              ...encounter,
+              round: 1,
+              activeCreatureId: creatureList[0]?.id ?? "",
+            },
+          ])
         }
-        round={combatRound.round}
+        encounterName={encounter.name}
+        round={encounter.round}
         hasCreatures={creatureList.length > 0}
       />
       <CreatureList
-        activeCreatureId={combatRound.activeCreatureId}
+        activeCreatureId={encounter.activeCreatureId}
         creatureList={creatureList}
         onUpdate={handleUpdate}
         onDelete={handleDelete}

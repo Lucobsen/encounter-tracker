@@ -11,7 +11,7 @@ import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 import BookIcon from "@mui/icons-material/Book";
 
-export const EncounterListPage = () => {
+export const EncountersPage = () => {
   const { palette } = useTheme();
   const isMobile = useIsMobile();
 
