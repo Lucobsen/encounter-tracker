@@ -1,12 +1,10 @@
-import { ICreature } from "../components/Creature/Creature";
-import { useLocalStorage } from "usehooks-ts";
 import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
 import { NavBar } from "../components/NavBar/NavBar";
 import { CreatureList } from "../components/CreatureList/CreatureList";
 import { NewCreatureRow } from "../components/NewCreatureRow/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 import { useParams } from "react-router-dom";
-import { useEncounterById } from "../api/use-encounters";
+import { ICreature, useEncounterById } from "../api/use-encounters";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(

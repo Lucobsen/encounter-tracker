@@ -34,6 +34,14 @@ export const EncounterList = () => {
     navigate(newEncounter.id);
   };
 
+  const handleOnDelete = (deletedId: string) => {
+    const filteredEncounters = encounterList.filter(
+      ({ id }) => id !== deletedId
+    );
+
+    setEncounterList(filteredEncounters);
+  };
+
   return (
     <Container sx={{ px: 2, pt: 9, pb: 8 }}>
       {encounterList.length > 0 ? (
@@ -43,6 +51,7 @@ export const EncounterList = () => {
               key={id}
               id={id}
               name={name}
+              onDelete={handleOnDelete}
               onUpdate={(newName) => handleNameChange(newName, id)}
             />
           ))}

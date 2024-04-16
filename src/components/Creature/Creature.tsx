@@ -13,15 +13,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { TextModal } from "../Modals/TextModal";
-
-export interface ICreature {
-  id: string;
-  initative: string;
-  name: string;
-  hp?: string;
-  isHidden: boolean;
-  conditions: string[];
-}
+import { ICreature } from "../../api/use-encounters";
 
 interface ICreatureProps {
   creature: ICreature;
