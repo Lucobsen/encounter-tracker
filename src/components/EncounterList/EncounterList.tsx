@@ -1,39 +1,13 @@
 import { Container, Stack } from "@mui/material";
-import { useLocalStorage } from "usehooks-ts";
-import { ICreature } from "../Creature/Creature";
 import { EmptyState } from "./EmptyState";
 import { EncounterItem } from "../EncounterItem/EncounterItem";
 import { useNavigate } from "react-router-dom";
-
-interface Encounter {
-  creatures: ICreature[];
-  id: string;
-  name: string;
-  createdOn: string;
-  lastUpdatedOn: string;
-}
+import { IEncounter, useEncounters } from "../../api/use-encounters";
 
 export const EncounterList = () => {
-  const [creatureList] = useLocalStorage<ICreature[]>("encounter", []);
   const navigate = useNavigate();
 
-  const importedList: Encounter[] =
-    creatureList.length > 0
-      ? [
-          {
-            id: crypto.randomUUID(),
-            name: "Encounter One",
-            creatures: creatureList,
-            createdOn: new Date().toISOString(),
-            lastUpdatedOn: new Date().toISOString(),
-          },
-        ]
-      : [];
-
-  const [encounterList, setEncounterList] = useLocalStorage<Encounter[]>(
-    "encounterList",
-    importedList
-  );
+  const [encounterList, setEncounterList] = useEncounters();
 
   const handleNameChange = (newName: string, id: string) => {
     const tempList = [...encounterList];
@@ -46,12 +20,14 @@ export const EncounterList = () => {
   };
 
   const handleOnCreate = (newName: string) => {
-    const newEncounter: Encounter = {
+    const newEncounter: IEncounter = {
       id: crypto.randomUUID(),
       name: newName,
       creatures: [],
       createdOn: new Date().toISOString(),
       lastUpdatedOn: new Date().toISOString(),
+      round: 1,
+      activeCreatureId: "",
     };
 
     setEncounterList([...encounterList, newEncounter]);

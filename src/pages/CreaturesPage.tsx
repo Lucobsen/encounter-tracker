@@ -20,30 +20,39 @@ export const CreaturesPage = () => {
   const isMobile = useIsMobile();
 
   const { encounter, setEncounterList } = useEncounterById(id ?? "");
-  const [creatureList, setCreatureList] = useLocalStorage<ICreature[]>(
-    "encounter",
-    []
-  );
 
   if (encounter === undefined) return null;
   if (!isMobile) return <DesktopWarning />;
 
   const handleAdd = (newCreature: ICreature) =>
-    setCreatureList(sortCreatures([...creatureList, newCreature]));
+    setEncounterList([
+      {
+        ...encounter,
+        creatures: sortCreatures([...encounter.creatures, newCreature]),
+      },
+    ]);
 
   const handleDelete = (deletedCreatureId: string) => {
-    const tempList = creatureList.filter(
+    const tempList = encounter.creatures.filter(
       (creature) => creature.id !== deletedCreatureId
     );
 
-    setCreatureList(sortCreatures(tempList));
-
-    if (tempList.length === 0)
-      setEncounterList([{ ...encounter, round: 1, activeCreatureId: "" }]);
+    if (tempList.length === 0) {
+      setEncounterList([
+        { ...encounter, creatures: [], round: 1, activeCreatureId: "" },
+      ]);
+    } else {
+      setEncounterList([
+        {
+          ...encounter,
+          creatures: sortCreatures(tempList),
+        },
+      ]);
+    }
   };
 
   const handleUpdate = (updatedCreature: ICreature) => {
-    const tempList = [...creatureList];
+    const tempList = [...encounter.creatures];
 
     const index = tempList.findIndex(
       (creature) => creature.id === updatedCreature.id
@@ -51,7 +60,12 @@ export const CreaturesPage = () => {
 
     if (index >= 0) {
       tempList[index] = updatedCreature;
-      setCreatureList(sortCreatures(tempList));
+      setEncounterList([
+        {
+          ...encounter,
+          creatures: sortCreatures(tempList),
+        },
+      ]);
     }
   };
 
@@ -61,7 +75,7 @@ export const CreaturesPage = () => {
     firstCreatureId: string
   ) => {
     const nextCreatureId =
-      creatureList[currentIndex + 1]?.id ?? firstCreatureId;
+      encounter.creatures[currentIndex + 1]?.id ?? firstCreatureId;
 
     const round =
       currentIndex + 1 === creatureCount
@@ -78,8 +92,8 @@ export const CreaturesPage = () => {
 
     const nextCreatureId =
       currentIndex === 0
-        ? creatureList[creatureCount - 1]?.id
-        : creatureList[currentIndex - 1]?.id;
+        ? encounter.creatures[creatureCount - 1]?.id
+        : encounter.creatures[currentIndex - 1]?.id;
 
     if (newRound === 0) return;
 
@@ -89,7 +103,7 @@ export const CreaturesPage = () => {
   };
 
   const handleTurnChange = (step: -1 | 1) => {
-    const creatureCount = creatureList.length;
+    const creatureCount = encounter.creatures.length;
 
     // is there a list of creatures
     if (creatureCount === 0)
@@ -98,15 +112,18 @@ export const CreaturesPage = () => {
       ]);
 
     const activeCreatureId = encounter.activeCreatureId;
-    const firstCreatureId = creatureList[0].id;
+    const firstCreatureId = encounter.creatures[0].id;
 
     // is the current saved ID present in the list of creatures
-    if (creatureList.find(({ id }) => id === activeCreatureId) === undefined)
+    if (
+      encounter.creatures.find(({ id }) => id === activeCreatureId) ===
+      undefined
+    )
       return setEncounterList([
         { ...encounter, activeCreatureId: firstCreatureId },
       ]);
 
-    const currentIndex = creatureList.findIndex(
+    const currentIndex = encounter.creatures.findIndex(
       ({ id }) => id === activeCreatureId
     );
 
@@ -125,22 +142,22 @@ export const CreaturesPage = () => {
             {
               ...encounter,
               round: 1,
-              activeCreatureId: creatureList[0]?.id ?? "",
+              activeCreatureId: encounter.creatures[0]?.id ?? "",
             },
           ])
         }
         encounterName={encounter.name}
         round={encounter.round}
-        hasCreatures={creatureList.length > 0}
+        hasCreatures={encounter.creatures.length > 0}
       />
       <CreatureList
         activeCreatureId={encounter.activeCreatureId}
-        creatureList={creatureList}
+        creatureList={encounter.creatures}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
       />
       <NewCreatureRow
-        disableNavigation={creatureList.length === 0}
+        disableNavigation={encounter.creatures.length === 0}
         changeTurn={handleTurnChange}
         onAdd={(newCreature) => handleAdd(newCreature)}
       />

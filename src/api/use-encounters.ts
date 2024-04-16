@@ -20,53 +20,16 @@ export interface IEncounter {
 }
 
 export const useEncounters = () => {
-  const [creatureList] = useLocalStorage<ICreature[]>("encounter", []);
-
-  const importedList: IEncounter[] =
-    creatureList.length > 0
-      ? [
-          {
-            id: crypto.randomUUID(),
-            name: "Encounter One",
-            creatures: creatureList,
-            createdOn: new Date().toISOString(),
-            lastUpdatedOn: new Date().toISOString(),
-            round: 1,
-            activeCreatureId: "",
-          },
-        ]
-      : [];
-
   const [encounterList, setEncounterList] = useLocalStorage<IEncounter[]>(
-    "encounterList",
-    importedList
+    "encounters",
+    []
   );
 
   return [encounterList, setEncounterList] as const;
 };
 
 export const useEncounterById = (id: string) => {
-  const [creatureList] = useLocalStorage<ICreature[]>("encounter", []);
-
-  const importedList: IEncounter[] =
-    creatureList.length > 0
-      ? [
-          {
-            id: crypto.randomUUID(),
-            name: "Encounter One",
-            creatures: creatureList,
-            createdOn: new Date().toISOString(),
-            lastUpdatedOn: new Date().toISOString(),
-            round: 1,
-            activeCreatureId: "",
-          },
-        ]
-      : [];
-
-  const [encounterList, setEncounterList] = useLocalStorage<IEncounter[]>(
-    "encounterList",
-    importedList
-  );
+  const [encounterList, setEncounterList] = useEncounters();
 
   const currentEncounter = encounterList.find(
     (encounter) => encounter.id === id
