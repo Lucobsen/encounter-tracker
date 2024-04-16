@@ -1,26 +1,26 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  Link,
-  Modal,
-  Stack,
-  TextField,
-  useTheme,
-} from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
+import { Box, Grid, IconButton, Link, useTheme } from "@mui/material";
 import { useState } from "react";
+import { RenameModal } from "../Modals/RenameModal";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { TextModal } from "../Modals/TextModal";
 
 interface IEncounterItemProps {
   id: string;
   name: string;
   onUpdate: (newName: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
+export const EncounterItem = ({
+  id,
+  name,
+  onUpdate,
+  onDelete,
+}: IEncounterItemProps) => {
   const { palette } = useTheme();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [newNameValue, setNewNameValue] = useState(name);
+  const [isRenameOpen, setIsRenameOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
@@ -33,7 +33,7 @@ export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
         p={1}
       >
         <Grid container alignItems="center">
-          <Grid item xs={10} overflow="hidden " textOverflow="ellipsis">
+          <Grid item xs={9} overflow="hidden " textOverflow="ellipsis">
             <Link
               textAlign="center"
               noWrap
@@ -46,53 +46,38 @@ export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
             </Link>
           </Grid>
 
-          <Grid item xs={2}>
-            <IconButton onClick={() => setIsSettingsOpen(true)} color="inherit">
-              <SettingsIcon />
+          <Grid item xs={1.5}>
+            <IconButton onClick={() => setIsRenameOpen(true)} color="inherit">
+              <DriveFileRenameOutlineIcon />
+            </IconButton>
+          </Grid>
+
+          <Grid item xs={1.5}>
+            <IconButton onClick={() => setIsDeleteOpen(true)} color="inherit">
+              <DeleteOutlineIcon />
             </IconButton>
           </Grid>
         </Grid>
       </Box>
 
-      <Modal
-        open={isSettingsOpen}
-        onClose={() => {
-          setIsSettingsOpen(false);
-          onUpdate(newNameValue);
+      <RenameModal
+        isOpen={isRenameOpen}
+        onClose={(newName) => {
+          onUpdate(newName);
+          setIsRenameOpen(false);
         }}
-      >
-        <Box
-          width="80%"
-          p={2}
-          borderRadius={2}
-          bgcolor={palette.background.default}
-          position="absolute"
-          left="50%"
-          top="50%"
-          sx={{
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Stack spacing={2}>
-            <TextField
-              multiline
-              placeholder="Enter encounter name"
-              defaultValue={name}
-              label="Encounter Name"
-              onChange={({ target }) => setNewNameValue(target.value)}
-            />
+        name={name}
+      />
 
-            {/* <Button
-              variant="contained"
-              fullWidth
-              color="error"
-              onClick={() => {}}
-            >
-              Delete Encounter
-            </Button> */}
-          </Stack>
-        </Box>
-      </Modal>
+      <TextModal
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={() => {
+          onDelete(id);
+          setIsDeleteOpen(false);
+        }}
+        content={`Do you wish to delete "${name}"?`}
+      />
     </>
   );
 };

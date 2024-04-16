@@ -1,6 +1,7 @@
 import { Container, List } from "@mui/material";
-import { Creature, ICreature } from "../Creature/Creature";
+import { Creature } from "../Creature/Creature";
 import { EmptyState } from "./EmptyState";
+import { ICreature } from "../../api/use-encounters";
 
 interface ICreatureList {
   creatureList: ICreature[];
