@@ -1,7 +1,15 @@
-import { AppBar, Box, Toolbar, Typography, useTheme } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Stack,
+  Toolbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { EncounterList } from "../components/EncounterList/EncounterList";
 import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
 import { useIsMobile } from "../hooks/is-mobile.hook";
+import BookIcon from "@mui/icons-material/Book";
 
 export const EncounterListPage = () => {
   const { palette } = useTheme();
@@ -21,11 +29,13 @@ export const EncounterListPage = () => {
         >
           <Toolbar
             sx={{
-              justifyContent: "space-between",
               backgroundColor: palette.background.paper,
             }}
           >
-            <Typography variant="h5">Combat Chronicle</Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <BookIcon />
+              <Typography variant="h5">Combat Chronicle</Typography>
+            </Stack>
           </Toolbar>
         </AppBar>
       </Box>

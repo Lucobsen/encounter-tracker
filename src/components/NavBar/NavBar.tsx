@@ -1,9 +1,10 @@
-import { Button, Link, Typography, useTheme } from "@mui/material";
+import { Button, Link, Stack, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { TextModal } from "../Modals/TextModal";
 import { useState } from "react";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 interface INavBar {
   round: number;
@@ -31,9 +32,13 @@ export const NavBar = ({ round, hasCreatures, onReset }: INavBar) => {
               backgroundColor: palette.background.paper,
             }}
           >
-            <Link href="/" color={palette.text.primary} underline="none">
-              <Typography variant="h5">Combat Chronicle</Typography>
-            </Link>
+            <Stack spacing={1} direction="row" alignItems="center">
+              <Link href="/" color={palette.text.primary} underline="none">
+                <ArrowBackIosIcon />
+              </Link>
+              {/* Add Name of Encounter */}
+              {/* <Typography variant="h5">Combat Chronicle</Typography> */}
+            </Stack>
 
             {hasCreatures && (
               <Button
