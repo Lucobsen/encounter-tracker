@@ -33,7 +33,7 @@ export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
         p={1}
       >
         <Grid container alignItems="center">
-          <Grid item xs={10}>
+          <Grid item xs={10} overflow="hidden " textOverflow="ellipsis">
             <Link
               textAlign="center"
               noWrap
@@ -75,6 +75,7 @@ export const EncounterItem = ({ id, name, onUpdate }: IEncounterItemProps) => {
         >
           <Stack spacing={2}>
             <TextField
+              multiline
               placeholder="Enter encounter name"
               defaultValue={name}
               label="Encounter Name"

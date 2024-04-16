@@ -129,6 +129,7 @@ export const CreaturesPage = () => {
             },
           ])
         }
+        encounterName={encounter.name}
         round={encounter.round}
         hasCreatures={creatureList.length > 0}
       />

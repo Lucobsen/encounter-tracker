@@ -1,4 +1,4 @@
-import { Button, Link, Stack, useTheme } from "@mui/material";
+import { Button, Link, Stack, Typography, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,9 +10,15 @@ interface INavBar {
   round: number;
   hasCreatures: boolean;
   onReset: () => void;
+  encounterName: string;
 }
 
-export const NavBar = ({ round, hasCreatures, onReset }: INavBar) => {
+export const NavBar = ({
+  encounterName,
+  round,
+  hasCreatures,
+  onReset,
+}: INavBar) => {
   const { palette } = useTheme();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
@@ -32,16 +38,28 @@ export const NavBar = ({ round, hasCreatures, onReset }: INavBar) => {
               backgroundColor: palette.background.paper,
             }}
           >
-            <Stack spacing={1} direction="row" alignItems="center">
+            <Stack
+              spacing={1}
+              direction="row"
+              alignItems="center"
+              overflow="hidden"
+            >
               <Link href="/" color={palette.text.primary} underline="none">
                 <ArrowBackIosIcon />
               </Link>
-              {/* Add Name of Encounter */}
-              {/* <Typography variant="h5">Combat Chronicle</Typography> */}
+              <Typography
+                variant="h5"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                overflow="hidden"
+              >
+                {encounterName}
+              </Typography>
             </Stack>
 
             {hasCreatures && (
               <Button
+                sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
                 size="small"
                 variant="contained"
                 color="error"
