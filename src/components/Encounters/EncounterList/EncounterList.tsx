@@ -15,14 +15,18 @@ export const EncounterList = () => {
     getEncounters()
   );
 
+  const updateEncounters = (updatedEncounters: IEncounter[]) => {
+    setEncounterList(updatedEncounters);
+    setEncounters(updatedEncounters);
+  };
+
   const handleNameChange = (newName: string, id: string) => {
     const tempList = [...encounterList];
     const index = tempList.findIndex((item) => item.id === id);
 
     if (index >= 0) {
       tempList[index].name = newName;
-      setEncounterList(tempList);
-      setEncounters(tempList);
+      updateEncounters(tempList);
     }
   };
 
@@ -37,8 +41,8 @@ export const EncounterList = () => {
       activeCreatureId: "",
     };
 
-    setEncounterList([...encounterList, newEncounter]);
-    setEncounters([...encounterList, newEncounter]);
+    updateEncounters([...encounterList, newEncounter]);
+
     navigate(newEncounter.id);
   };
 
@@ -47,8 +51,7 @@ export const EncounterList = () => {
       ({ id }) => id !== deletedId
     );
 
-    setEncounterList(filteredEncounters);
-    setEncounters(filteredEncounters);
+    updateEncounters(filteredEncounters);
   };
 
   return (
