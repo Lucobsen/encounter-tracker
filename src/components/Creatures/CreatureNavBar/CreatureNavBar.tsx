@@ -2,7 +2,7 @@ import { Button, Link, Stack, Typography, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { TextModal } from "../Modals/TextModal";
+import { TextModal } from "../../shared/Modals/TextModal";
 import { useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 

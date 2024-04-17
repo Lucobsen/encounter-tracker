@@ -1,7 +1,7 @@
-import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
-import { NavBar } from "../components/NavBar/NavBar";
-import { CreatureList } from "../components/CreatureList/CreatureList";
-import { NewCreatureRow } from "../components/NewCreatureRow/NewCreatureRow";
+import { DesktopWarning } from "../components/shared/DesktopWarning/DesktopWarning";
+import { NavBar } from "../components/Creatures/CreatureNavBar/CreatureNavBar";
+import { CreatureList } from "../components/Creatures/CreatureList/CreatureList";
+import { NewCreatureRow } from "../components/Creatures/NewCreatureRow/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 import { useParams } from "react-router-dom";
 import { ICreature, useEncounterById } from "../api/use-encounters";

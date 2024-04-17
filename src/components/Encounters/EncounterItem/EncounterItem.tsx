@@ -1,9 +1,9 @@
 import { Box, Grid, IconButton, Link, useTheme } from "@mui/material";
 import { useState } from "react";
-import { RenameModal } from "../Modals/RenameModal";
+import { RenameModal } from "../../shared/Modals/RenameModal";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { TextModal } from "../Modals/TextModal";
+import { TextModal } from "../../shared/Modals/TextModal";
 
 interface IEncounterItemProps {
   id: string;

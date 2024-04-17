@@ -2,7 +2,7 @@ import { Container, Stack } from "@mui/material";
 import { EmptyState } from "./EmptyState";
 import { EncounterItem } from "../EncounterItem/EncounterItem";
 import { useNavigate } from "react-router-dom";
-import { IEncounter, useEncounters } from "../../api/use-encounters";
+import { IEncounter, useEncounters } from "../../../api/use-encounters";
 
 export const EncounterList = () => {
   const navigate = useNavigate();

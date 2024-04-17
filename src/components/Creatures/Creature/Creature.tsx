@@ -12,8 +12,8 @@ import { Conditions } from "../Conditions/Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { TextModal } from "../Modals/TextModal";
-import { ICreature } from "../../api/use-encounters";
+import { TextModal } from "../../shared/Modals/TextModal";
+import { ICreature } from "../../../api/use-encounters";
 
 interface ICreatureProps {
   creature: ICreature;
