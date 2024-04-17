@@ -2,12 +2,18 @@ import { Container, Stack } from "@mui/material";
 import { EmptyState } from "./EmptyState";
 import { EncounterItem } from "../EncounterItem/EncounterItem";
 import { useNavigate } from "react-router-dom";
-import { IEncounter, useEncounters } from "../../../api/use-encounters";
+import {
+  IEncounter,
+  getEncounters,
+  setEncounters,
+} from "../../../api/encounters";
+import { useState } from "react";
 
 export const EncounterList = () => {
   const navigate = useNavigate();
-
-  const [encounterList, setEncounterList] = useEncounters();
+  const [encounterList, setEncounterList] = useState<IEncounter[]>(
+    getEncounters()
+  );
 
   const handleNameChange = (newName: string, id: string) => {
     const tempList = [...encounterList];
@@ -16,6 +22,7 @@ export const EncounterList = () => {
     if (index >= 0) {
       tempList[index].name = newName;
       setEncounterList(tempList);
+      setEncounters(tempList);
     }
   };
 
@@ -31,6 +38,7 @@ export const EncounterList = () => {
     };
 
     setEncounterList([...encounterList, newEncounter]);
+    setEncounters([...encounterList, newEncounter]);
     navigate(newEncounter.id);
   };
 
@@ -40,6 +48,7 @@ export const EncounterList = () => {
     );
 
     setEncounterList(filteredEncounters);
+    setEncounters(filteredEncounters);
   };
 
   return (

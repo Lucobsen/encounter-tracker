@@ -11,7 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { ICreature } from "../../../api/use-encounters";
+import { ICreature } from "../../../api/encounters";
 
 interface INewCreatureRowProps {
   onAdd: (newCreature: ICreature) => void;
