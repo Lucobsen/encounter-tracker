@@ -1,10 +1,16 @@
-import { DesktopWarning } from "../components/DesktopWarning/DesktopWarning";
-import { NavBar } from "../components/NavBar/NavBar";
-import { CreatureList } from "../components/CreatureList/CreatureList";
-import { NewCreatureRow } from "../components/NewCreatureRow/NewCreatureRow";
+import { DesktopWarning } from "../components/shared/DesktopWarning/DesktopWarning";
+import { NavBar } from "../components/Creatures/CreatureNavBar/CreatureNavBar";
+import { CreatureList } from "../components/Creatures/CreatureList/CreatureList";
+import { NewCreatureRow } from "../components/Creatures/NewCreatureRow/NewCreatureRow";
 import { useIsMobile } from "../hooks/is-mobile.hook";
 import { useParams } from "react-router-dom";
-import { ICreature, useEncounterById } from "../api/use-encounters";
+import {
+  ICreature,
+  IEncounter,
+  getEncounterById,
+  setEncounters,
+} from "../api/encounters";
+import { useState } from "react";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -16,19 +22,23 @@ const sortCreatures = (creatures: ICreature[]) =>
 export const CreaturesPage = () => {
   let { id } = useParams();
   const isMobile = useIsMobile();
-
-  const { encounter, setEncounterList } = useEncounterById(id ?? "");
+  const [encounter, setEncounter] = useState<IEncounter | undefined>(
+    getEncounterById(id ?? "")
+  );
 
   if (encounter === undefined) return null;
   if (!isMobile) return <DesktopWarning />;
 
+  const updateEncounter = (updatedEncounter: IEncounter) => {
+    setEncounter(updatedEncounter);
+    setEncounters([updatedEncounter]);
+  };
+
   const handleAdd = (newCreature: ICreature) =>
-    setEncounterList([
-      {
-        ...encounter,
-        creatures: sortCreatures([...encounter.creatures, newCreature]),
-      },
-    ]);
+    updateEncounter({
+      ...encounter,
+      creatures: sortCreatures([...encounter.creatures, newCreature]),
+    });
 
   const handleDelete = (deletedCreatureId: string) => {
     const tempList = encounter.creatures.filter(
@@ -36,21 +46,22 @@ export const CreaturesPage = () => {
     );
 
     if (tempList.length === 0) {
-      setEncounterList([
-        { ...encounter, creatures: [], round: 1, activeCreatureId: "" },
-      ]);
+      updateEncounter({
+        ...encounter,
+        creatures: [],
+        round: 1,
+        activeCreatureId: "",
+      });
     } else {
-      setEncounterList([
-        {
-          ...encounter,
-          creatures: sortCreatures(tempList),
-        },
-      ]);
+      updateEncounter({
+        ...encounter,
+        creatures: sortCreatures(tempList),
+      });
     }
   };
 
   const handleUpdate = (updatedCreature: ICreature) => {
-    const tempList = [...encounter.creatures];
+    const tempList = encounter.creatures;
 
     const index = tempList.findIndex(
       (creature) => creature.id === updatedCreature.id
@@ -58,12 +69,11 @@ export const CreaturesPage = () => {
 
     if (index >= 0) {
       tempList[index] = updatedCreature;
-      setEncounterList([
-        {
-          ...encounter,
-          creatures: sortCreatures(tempList),
-        },
-      ]);
+
+      updateEncounter({
+        ...encounter,
+        creatures: sortCreatures(tempList),
+      });
     }
   };
 
@@ -80,9 +90,11 @@ export const CreaturesPage = () => {
         ? encounter.round + 1
         : encounter.round;
 
-    setEncounterList([
-      { ...encounter, round, activeCreatureId: nextCreatureId },
-    ]);
+    updateEncounter({
+      ...encounter,
+      round,
+      activeCreatureId: nextCreatureId,
+    });
   };
 
   const decrementTurn = (currentIndex: number, creatureCount: number) => {
@@ -95,9 +107,11 @@ export const CreaturesPage = () => {
 
     if (newRound === 0) return;
 
-    setEncounterList([
-      { ...encounter, round: newRound, activeCreatureId: nextCreatureId },
-    ]);
+    updateEncounter({
+      ...encounter,
+      round: newRound,
+      activeCreatureId: nextCreatureId,
+    });
   };
 
   const handleTurnChange = (step: -1 | 1) => {
@@ -105,9 +119,11 @@ export const CreaturesPage = () => {
 
     // is there a list of creatures
     if (creatureCount === 0)
-      return setEncounterList([
-        { ...encounter, round: 1, activeCreatureId: "" },
-      ]);
+      return updateEncounter({
+        ...encounter,
+        round: 1,
+        activeCreatureId: "",
+      });
 
     const activeCreatureId = encounter.activeCreatureId;
     const firstCreatureId = encounter.creatures[0].id;
@@ -117,9 +133,10 @@ export const CreaturesPage = () => {
       encounter.creatures.find(({ id }) => id === activeCreatureId) ===
       undefined
     )
-      return setEncounterList([
-        { ...encounter, activeCreatureId: firstCreatureId },
-      ]);
+      return updateEncounter({
+        ...encounter,
+        activeCreatureId: firstCreatureId,
+      });
 
     const currentIndex = encounter.creatures.findIndex(
       ({ id }) => id === activeCreatureId
@@ -132,18 +149,17 @@ export const CreaturesPage = () => {
     if (step === -1) decrementTurn(currentIndex, creatureCount);
   };
 
+  const handleReset = () =>
+    updateEncounter({
+      ...encounter,
+      round: 1,
+      activeCreatureId: encounter.creatures[0]?.id ?? "",
+    });
+
   return (
     <>
       <NavBar
-        onReset={() =>
-          setEncounterList([
-            {
-              ...encounter,
-              round: 1,
-              activeCreatureId: encounter.creatures[0]?.id ?? "",
-            },
-          ])
-        }
+        onReset={handleReset}
         encounterName={encounter.name}
         round={encounter.round}
         hasCreatures={encounter.creatures.length > 0}
@@ -157,7 +173,7 @@ export const CreaturesPage = () => {
       <NewCreatureRow
         disableNavigation={encounter.creatures.length === 0}
         changeTurn={handleTurnChange}
-        onAdd={(newCreature) => handleAdd(newCreature)}
+        onAdd={handleAdd}
       />
     </>
   );
