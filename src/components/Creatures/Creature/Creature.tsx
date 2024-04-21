@@ -4,7 +4,6 @@ import {
   IconButton,
   ListItem,
   TextField,
-  debounce,
   useTheme,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -14,6 +13,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { TextModal } from "../../shared/Modals/TextModal";
 import { ICreature } from "../../../api/encounters";
+import { useDebounce } from "../../../utils/debouce";
 
 interface ICreatureProps {
   creature: ICreature;
@@ -33,12 +33,11 @@ export const Creature = ({
   const listItemRef = useRef<HTMLLIElement>(null);
   const { palette } = useTheme();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const debouncedChangeHandler = useCallback(debounce(onUpdate, 1000), []);
+  const debouncedChangeHandler = useDebounce(onUpdate, 1000);
 
   const handleUpdate = (updatedCreature: ICreature) =>
     debouncedChangeHandler(updatedCreature);
 
-  // TODO: better way to add/remove elements from an array???
   const handleConditionChange = (condition: string) => {
     const tempConditions = [...conditions];
     const index = tempConditions.findIndex(
