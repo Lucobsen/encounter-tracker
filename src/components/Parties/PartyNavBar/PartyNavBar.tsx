@@ -1,20 +1,16 @@
 import {
   AppBar,
   Box,
-  IconButton,
+  Link,
   Stack,
-  SvgIcon,
   Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
-import BookIcon from "@mui/icons-material/Book";
-import Groups3Icon from "@mui/icons-material/Groups3";
-import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-export const EncountersNavBar = () => {
+export const PartyNavBar = () => {
   const { palette } = useTheme();
-  const navigate = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,17 +33,11 @@ export const EncountersNavBar = () => {
             alignItems="center"
             overflow="hidden"
           >
-            <SvgIcon>
-              <BookIcon />
-            </SvgIcon>
-            <Typography variant="h5">Combat Chronicle</Typography>
+            <Link href="/" color={palette.text.primary} underline="none">
+              <ArrowBackIosIcon fontSize="small" />
+            </Link>
+            <Typography variant="h5">Parties</Typography>
           </Stack>
-
-          <IconButton onClick={() => navigate("parties")}>
-            <SvgIcon>
-              <Groups3Icon />
-            </SvgIcon>
-          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>

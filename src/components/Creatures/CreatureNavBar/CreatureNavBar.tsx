@@ -45,7 +45,7 @@ export const NavBar = ({
               overflow="hidden"
             >
               <Link href="/" color={palette.text.primary} underline="none">
-                <ArrowBackIosIcon />
+                <ArrowBackIosIcon fontSize="small" />
               </Link>
               <Typography
                 variant="h5"
