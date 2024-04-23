@@ -28,6 +28,7 @@ export const NavBar = ({
         <AppBar
           position="fixed"
           sx={{
+            boxShadow: "none",
             color: palette.text.primary,
             borderBottom: `1px solid ${palette.text.primary}`,
           }}
