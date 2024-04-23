@@ -1,8 +1,7 @@
-import { EncounterList } from "../components/Encounters/EncounterList/EncounterList";
 import { DesktopWarning } from "../components/shared/DesktopWarning/DesktopWarning";
 import { useIsMobile } from "../hooks/is-mobile.hook";
-import { EncountersNavBar } from "../components/Encounters/EncountersNavBar/EncountersNavBar";
 import { PartyNavBar } from "../components/Parties/PartyNavBar/PartyNavBar";
+import { PartyList } from "../components/Parties/PartyList/PartyList";
 
 export const PartyPage = () => {
   const isMobile = useIsMobile();
@@ -12,6 +11,7 @@ export const PartyPage = () => {
   return (
     <>
       <PartyNavBar />
+      <PartyList />
     </>
   );
 };

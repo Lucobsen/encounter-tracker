@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Chip,
   IconButton,
   Stack,
   SvgIcon,
@@ -41,6 +42,13 @@ export const EncountersNavBar = () => {
               <BookIcon />
             </SvgIcon>
             <Typography variant="h5">Combat Chronicle</Typography>
+            <Chip
+              variant={palette.mode === "dark" ? "outlined" : "filled"}
+              size="small"
+              label="BETA"
+              color="success"
+              sx={{ fontSize: 10 }}
+            />
           </Stack>
 
           <IconButton onClick={() => navigate("parties")}>
