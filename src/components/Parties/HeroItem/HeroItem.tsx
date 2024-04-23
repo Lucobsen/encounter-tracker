@@ -4,11 +4,18 @@ import { useState } from "react";
 
 interface IHeroItemProps {
   onDelete: () => void;
+  //onUpdate: () => void;
   name: string;
 }
 
 export const HeroItem = ({ onDelete, name }: IHeroItemProps) => {
   const [heroName, setHeroName] = useState(name);
+
+  // TODO: add update logic for hero names
+  // const debouncedChangeHandler = useDebounce(onUpdate, 1000);
+
+  // const handleUpdate = (updatedHero: IHero) =>
+  //   debouncedChangeHandler(updatedHero);
 
   return (
     <ListItem disableGutters sx={{ width: "100%" }}>
