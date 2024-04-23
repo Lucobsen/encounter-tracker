@@ -2,12 +2,14 @@ import { Container, List } from "@mui/material";
 import { Creature } from "../Creature/Creature";
 import { EmptyState } from "./EmptyState";
 import { ICreature } from "../../../api/encounters";
+import { IHero } from "../../../api/parties";
 
 interface ICreatureList {
   creatureList: ICreature[];
   activeCreatureId: string;
   onUpdate: (updatedCreature: ICreature) => void;
   onDelete: (deletedCreatureId: string) => void;
+  onImport: (heroes: IHero[]) => void;
 }
 
 export const CreatureList = ({
@@ -15,6 +17,7 @@ export const CreatureList = ({
   activeCreatureId,
   onDelete,
   onUpdate,
+  onImport,
 }: ICreatureList) => {
   const hasCreatures = creatureList.length > 0;
 
@@ -33,7 +36,7 @@ export const CreatureList = ({
           ))}
         </List>
       ) : (
-        <EmptyState />
+        <EmptyState onImport={onImport} />
       )}
     </Container>
   );

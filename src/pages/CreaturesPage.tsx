@@ -11,6 +11,7 @@ import {
   setEncounters,
 } from "../api/encounters";
 import { useState } from "react";
+import { IHero } from "../api/parties";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -32,6 +33,21 @@ export const CreaturesPage = () => {
   const updateEncounter = (updatedEncounter: IEncounter) => {
     setEncounter(updatedEncounter);
     setEncounters([updatedEncounter]);
+  };
+
+  const handleImport = (heroes: IHero[]) => {
+    const updatedEncounter: IEncounter = {
+      ...encounter,
+      creatures: heroes.map<ICreature>(({ id, name }) => ({
+        conditions: [],
+        id,
+        name,
+        isHidden: false,
+        initative: " 0",
+      })),
+    };
+
+    updateEncounter(updatedEncounter);
   };
 
   const handleAdd = (newCreature: ICreature) =>
@@ -169,6 +185,7 @@ export const CreaturesPage = () => {
         creatureList={encounter.creatures}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
+        onImport={handleImport}
       />
       <NewCreatureRow
         disableNavigation={encounter.creatures.length === 0}

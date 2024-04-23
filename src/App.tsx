@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { EncountersPage } from "./pages/EncountersPage";
 import { CreaturesPage } from "./pages/CreaturesPage";
+import { PartyPage } from "./pages/PartyPage";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -24,8 +25,9 @@ const App = () => {
       <SnackbarProvider maxSnack={2} autoHideDuration={3000}>
         <BrowserRouter>
           <Routes>
-            <Route element={<CreaturesPage />} path=":id" />
             <Route element={<EncountersPage />} path="" />
+            <Route element={<CreaturesPage />} path=":id" />
+            <Route element={<PartyPage />} path="parties" />
           </Routes>
         </BrowserRouter>
         <Analytics />

@@ -54,6 +54,7 @@ export const NewCreatureRow = ({
       position="fixed"
       sx={{
         top: "auto",
+        boxShadow: "none",
         bottom: 0,
         borderTop: `1px solid ${palette.mode === "light" ? "#000" : "#fff"}`,
       }}

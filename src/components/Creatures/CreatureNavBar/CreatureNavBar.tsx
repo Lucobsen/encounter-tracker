@@ -28,6 +28,7 @@ export const NavBar = ({
         <AppBar
           position="fixed"
           sx={{
+            boxShadow: "none",
             color: palette.text.primary,
             borderBottom: `1px solid ${palette.text.primary}`,
           }}
@@ -45,7 +46,7 @@ export const NavBar = ({
               overflow="hidden"
             >
               <Link href="/" color={palette.text.primary} underline="none">
-                <ArrowBackIosIcon />
+                <ArrowBackIosIcon fontSize="small" />
               </Link>
               <Typography
                 variant="h5"
