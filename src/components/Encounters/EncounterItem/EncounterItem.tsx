@@ -26,7 +26,7 @@ export const EncounterItem = ({
     <>
       <Box
         width="80%"
-        bgcolor={palette.info.main}
+        bgcolor={palette.background.default}
         color={palette.text.primary}
         border={`1px solid ${palette.text.primary}`}
         borderRadius={2}
@@ -41,19 +41,20 @@ export const EncounterItem = ({
               underline="hover"
               color="inherit"
               variant="h6"
+              fontWeight="bold"
             >
               {name}
             </Link>
           </Grid>
 
           <Grid item xs={1.5}>
-            <IconButton onClick={() => setIsRenameOpen(true)} color="inherit">
+            <IconButton onClick={() => setIsRenameOpen(true)} color="info">
               <DriveFileRenameOutlineIcon />
             </IconButton>
           </Grid>
 
           <Grid item xs={1.5}>
-            <IconButton onClick={() => setIsDeleteOpen(true)} color="inherit">
+            <IconButton onClick={() => setIsDeleteOpen(true)} color="error">
               <DeleteOutlineIcon />
             </IconButton>
           </Grid>

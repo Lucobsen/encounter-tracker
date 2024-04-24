@@ -45,14 +45,23 @@ export const NavBar = ({
               alignItems="center"
               overflow="hidden"
             >
-              <Link href="/" color={palette.text.primary} underline="none">
+              <Link
+                href="/"
+                color={
+                  palette.mode === "light"
+                    ? palette.common.black
+                    : palette.common.white
+                }
+                underline="none"
+              >
                 <ArrowBackIosIcon fontSize="small" />
               </Link>
               <Typography
-                variant="h5"
+                variant="h6"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 overflow="hidden"
+                fontWeight="bold"
               >
                 {encounterName}
               </Typography>

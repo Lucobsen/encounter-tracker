@@ -6,7 +6,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Conditions } from "../Conditions/Conditions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -76,7 +76,12 @@ export const Creature = ({
         <Box
           minHeight={60}
           width="100%"
-          border={`1px solid ${palette.mode === "light" ? "#000" : "#fff"}`}
+          bgcolor={palette.background.default}
+          border={`1px solid ${
+            palette.mode === "light"
+              ? palette.common.black
+              : palette.common.white
+          }`}
           borderRadius={2}
           p={1}
           boxShadow={
