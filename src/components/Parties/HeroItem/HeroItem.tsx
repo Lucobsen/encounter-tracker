@@ -1,21 +1,18 @@
 import { IconButton, ListItem, Stack, TextField } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useState } from "react";
+import { useDebounce } from "../../../utils/debouce";
 
 interface IHeroItemProps {
   onDelete: () => void;
-  //onUpdate: () => void;
+  onUpdate: (updatedHeroName: string) => void;
   name: string;
 }
 
-export const HeroItem = ({ onDelete, name }: IHeroItemProps) => {
-  const [heroName, setHeroName] = useState(name);
+export const HeroItem = ({ onDelete, onUpdate, name }: IHeroItemProps) => {
+  const debouncedChangeHandler = useDebounce(onUpdate, 1000);
 
-  // TODO: add update logic for hero names
-  // const debouncedChangeHandler = useDebounce(onUpdate, 1000);
-
-  // const handleUpdate = (updatedHero: IHero) =>
-  //   debouncedChangeHandler(updatedHero);
+  const handleUpdate = (updatedHeroName: string) =>
+    debouncedChangeHandler(updatedHeroName);
 
   return (
     <ListItem disableGutters sx={{ width: "100%" }}>
@@ -26,8 +23,8 @@ export const HeroItem = ({ onDelete, name }: IHeroItemProps) => {
         <TextField
           size="small"
           type="text"
-          value={heroName}
-          onChange={({ target }) => setHeroName(target.value)}
+          defaultValue={name}
+          onChange={({ target }) => handleUpdate(target.value)}
           fullWidth
           variant="standard"
           placeholder="Update hero name"

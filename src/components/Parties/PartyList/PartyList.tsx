@@ -37,6 +37,18 @@ export const PartyList = () => {
     setParties(tempList);
   };
 
+  const handleOnUpdate = (
+    partyIndex: number,
+    heroIndex: number,
+    updatedHeroName: string
+  ) => {
+    const tempList = [...partyList];
+    tempList[partyIndex].heroes[heroIndex].name = updatedHeroName;
+
+    setPartyList(tempList);
+    setParties(tempList);
+  };
+
   return (
     <Container sx={{ px: 2, pt: 9, pb: 8 }}>
       {partyList.length > 0 ? (
@@ -53,6 +65,9 @@ export const PartyList = () => {
                 ])
               }
               onDelete={(heroId) => handleOnDelete(index, heroId)}
+              onUpdate={(heroIndex, updatedHeroName) =>
+                handleOnUpdate(index, heroIndex, updatedHeroName)
+              }
             />
           ))}
         </Stack>
