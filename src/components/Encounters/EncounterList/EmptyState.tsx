@@ -37,11 +37,12 @@ export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
           textAlign="center"
           color={palette.text.primary}
         >
-          No encounters found
+          Nat 1, no encounters found!
         </Typography>
         <Button
           variant="contained"
-          color="info"
+          color="success"
+          sx={{ fontWeight: "bold" }}
           onClick={() => setIsAddModalOpen(true)}
         >
           Create new encounter
@@ -73,6 +74,7 @@ export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
               variant="contained"
               fullWidth
               color="success"
+              sx={{ fontWeight: "bold" }}
               onClick={() => onCreate(newNameValue)}
             >
               Save

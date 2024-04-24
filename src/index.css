@@ -15,14 +15,14 @@ code {
 /* Apply a default color scheme */
 @media (prefers-color-scheme: no-preference) {
   html {
-    background-color: #fff;
+    background-color: #e0e0e0;
   }
 }
 
 /* Apply a light color scheme */
 @media (prefers-color-scheme: light) {
   html {
-    background-color: #fff;
+    background-color: #e0e0e0;
   }
 }
 

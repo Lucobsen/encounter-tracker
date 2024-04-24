@@ -39,23 +39,27 @@ export const EncountersNavBar = () => {
             alignItems="center"
             overflow="hidden"
           >
-            <SvgIcon>
-              <BookIcon />
-            </SvgIcon>
-            <Typography variant="h5">Combat Chronicle</Typography>
+            <Typography fontWeight="bold" variant="h6">
+              Combat Chronicle
+            </Typography>
             <Chip
               variant={palette.mode === "dark" ? "outlined" : "filled"}
               size="small"
               label="BETA"
               color="success"
-              sx={{ fontSize: 10 }}
+              sx={{ fontSize: 8, height: 16 }}
             />
           </Stack>
 
           <IconButton onClick={() => navigate("parties")}>
-            <SvgIcon>
-              <Groups3Icon />
-            </SvgIcon>
+            <Groups3Icon
+              sx={{
+                color:
+                  palette.mode === "dark"
+                    ? palette.common.white
+                    : palette.common.black,
+              }}
+            />
           </IconButton>
         </Toolbar>
       </AppBar>
