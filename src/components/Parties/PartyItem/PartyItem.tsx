@@ -19,9 +19,16 @@ interface IPartyItem {
   heroes: IHero[];
   onAdd: (newHeroName: string) => void;
   onDelete: (id: string) => void;
+  onUpdate: (heroIndex: number, updatedHeroName: string) => void;
 }
 
-export const PartyItem = ({ name, heroes, onAdd, onDelete }: IPartyItem) => {
+export const PartyItem = ({
+  name,
+  heroes,
+  onAdd,
+  onDelete,
+  onUpdate,
+}: IPartyItem) => {
   const { palette } = useTheme();
   const [isHeroListOpen, setIsHeroListOpen] = useState(false);
 
@@ -51,8 +58,13 @@ export const PartyItem = ({ name, heroes, onAdd, onDelete }: IPartyItem) => {
 
       <Collapse in={isHeroListOpen} timeout="auto" unmountOnExit>
         <List>
-          {heroes.map(({ id, name }) => (
-            <HeroItem key={id} name={name} onDelete={() => onDelete(id)} />
+          {heroes.map(({ id, name }, index) => (
+            <HeroItem
+              key={id}
+              name={name}
+              onDelete={() => onDelete(id)}
+              onUpdate={(updatedHeroName) => onUpdate(index, updatedHeroName)}
+            />
           ))}
 
           <NewHeroItem onAdd={onAdd} />
