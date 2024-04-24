@@ -4,12 +4,10 @@ import {
   Chip,
   IconButton,
   Stack,
-  SvgIcon,
   Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
-import BookIcon from "@mui/icons-material/Book";
 import Groups3Icon from "@mui/icons-material/Groups3";
 import { useNavigate } from "react-router-dom";
 

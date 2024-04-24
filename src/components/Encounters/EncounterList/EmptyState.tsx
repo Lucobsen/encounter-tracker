@@ -1,13 +1,6 @@
-import {
-  Box,
-  Button,
-  Modal,
-  Stack,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Button, Stack, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
+import { NamingModal } from "../../shared/Modals/NamingModal";
 
 interface IEmptyStateProps {
   onCreate: (newEncounterName: string) => void;
@@ -16,7 +9,6 @@ interface IEmptyStateProps {
 export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
   const { palette } = useTheme();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newNameValue, setNewNameValue] = useState("");
 
   return (
     <>
@@ -49,39 +41,13 @@ export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
         </Button>
       </Stack>
 
-      <Modal open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}>
-        <Box
-          width="80%"
-          p={2}
-          borderRadius={2}
-          bgcolor={palette.background.default}
-          position="absolute"
-          left="50%"
-          top="50%"
-          sx={{
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Stack spacing={2}>
-            <TextField
-              placeholder="Enter encounter name"
-              defaultValue=""
-              label="Encounter Name"
-              onChange={({ target }) => setNewNameValue(target.value)}
-            />
-
-            <Button
-              variant="contained"
-              fullWidth
-              color="success"
-              sx={{ fontWeight: "bold" }}
-              onClick={() => onCreate(newNameValue)}
-            >
-              Save
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
+      <NamingModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        placeholder="Enter encounter name"
+        label="Encounter Name"
+        onCreate={(newName) => onCreate(newName)}
+      />
     </>
   );
 };
