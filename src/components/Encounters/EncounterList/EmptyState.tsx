@@ -1,14 +1,11 @@
 import { Button, Stack, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
-import { NamingModal } from "../../shared/Modals/NamingModal";
 
 interface IEmptyStateProps {
-  onCreate: (newEncounterName: string) => void;
+  openModal: () => void;
 }
 
-export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
+export const EmptyState = ({ openModal }: IEmptyStateProps) => {
   const { palette } = useTheme();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
     <>
@@ -35,19 +32,11 @@ export const EmptyState = ({ onCreate }: IEmptyStateProps) => {
           variant="contained"
           color="success"
           sx={{ fontWeight: "bold" }}
-          onClick={() => setIsAddModalOpen(true)}
+          onClick={openModal}
         >
           Create new encounter
         </Button>
       </Stack>
-
-      <NamingModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        placeholder="Enter encounter name"
-        label="Encounter Name"
-        onCreate={(newName) => onCreate(newName)}
-      />
     </>
   );
 };
