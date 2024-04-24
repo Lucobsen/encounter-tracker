@@ -1,14 +1,7 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Modal,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Button, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { IHero, getParties } from "../../../api/parties";
 import { useState } from "react";
+import { ImportModal } from "../../shared/Modals/ImportModal";
 
 interface IEmptyStateProps {
   onImport: (heroes: IHero[]) => void;
@@ -94,39 +87,13 @@ export const EmptyState = ({ onImport }: IEmptyStateProps) => {
         )}
       </Stack>
 
-      <Modal open={isPartyModalOpen} onClose={() => setIsPartyModalOpen(false)}>
-        <Box
-          width="80%"
-          p={2}
-          borderRadius={2}
-          sx={{
-            bgcolor: palette.background.default,
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Stack alignItems="center" spacing={1}>
-            <Typography
-              sx={{ textDecoration: "underline" }}
-              color={palette.text.primary}
-            >
-              Select Party to Import
-            </Typography>
-            {partiesWithHeros.map(({ name, heroes }, index) => (
-              <Button
-                key={`party-${name}-${index}`}
-                variant="text"
-                color="info"
-                onClick={() => handleOnImport(heroes)}
-              >
-                {name}
-              </Button>
-            ))}
-          </Stack>
-        </Box>
-      </Modal>
+      <ImportModal
+        isOpen={isPartyModalOpen}
+        onClose={() => setIsPartyModalOpen(false)}
+        items={partiesWithHeros.map(({ name }) => name)}
+        onImport={(index) => handleOnImport(partiesWithHeros[index].heroes)}
+        title="Select Party to Import"
+      />
     </>
   );
 };
