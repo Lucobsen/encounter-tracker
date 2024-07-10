@@ -1,14 +1,13 @@
 import { ReactNode, useMemo, useState } from "react";
 import { createContextUtil } from "./context";
 import { getEncounters, IEncounter, setEncounters } from "../api/encounters";
+import { isBefore } from "date-fns";
 
 // TODO: add sorting
-// const sortEncounters = (encounters: IEncounter[]) =>
-//   encounters.sort(
-//     (encounterA, encounterB) =>
-//       Number.parseInt(encounterB.lastUpdatedOn) -
-//       Number.parseInt(encounterA.lastUpdatedOn)
-//   );
+const sortEncounters = (encounters: IEncounter[]) =>
+  encounters.sort((encounterA, encounterB) =>
+    isBefore(encounterA.lastUpdatedOn, encounterB.lastUpdatedOn) ? 1 : -1
+  );
 
 interface IEncounterContextInterface {
   encounters: IEncounter[];
@@ -31,8 +30,10 @@ export const EncounterContextProvider = ({
   );
 
   const updateEncounters = (updatedList: IEncounter[]) => {
-    setEncounterList(updatedList);
-    setEncounters(updatedList);
+    const sortedList = sortEncounters(updatedList);
+
+    setEncounterList(sortedList);
+    setEncounters(sortedList);
   };
 
   const updateSelectedEncounter = (updatedEncounter: IEncounter) => {
@@ -40,9 +41,10 @@ export const EncounterContextProvider = ({
       ({ id }) => id !== updatedEncounter.id
     );
     const updatedList = [...otherEncounters, updatedEncounter];
+    const sortedList = sortEncounters(updatedList);
 
-    setEncounterList(updatedList);
-    setEncounters(updatedList);
+    setEncounterList(sortedList);
+    setEncounters(sortedList);
   };
 
   const value = useMemo(
