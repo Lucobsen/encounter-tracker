@@ -18,6 +18,7 @@ export const EncounterList = () => {
 
     if (index >= 0) {
       tempList[index].name = newName;
+      tempList[index].lastUpdatedOn = new Date().toISOString();
       updateEncounters(tempList);
     }
   };

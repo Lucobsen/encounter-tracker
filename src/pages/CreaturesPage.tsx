@@ -33,6 +33,7 @@ export const CreaturesPage = () => {
   const handleImport = (heroes: IHero[]) =>
     updateSelectedEncounter({
       ...selectedEncounter,
+      lastUpdatedOn: new Date().toISOString(),
       creatures: heroes.map<ICreature>(({ id, name }) => ({
         conditions: [],
         id,
@@ -45,6 +46,7 @@ export const CreaturesPage = () => {
   const handleAdd = (newCreature: ICreature) =>
     updateSelectedEncounter({
       ...selectedEncounter,
+      lastUpdatedOn: new Date().toISOString(),
       creatures: sortCreatures([...selectedEncounter.creatures, newCreature]),
     });
 
@@ -56,6 +58,7 @@ export const CreaturesPage = () => {
     if (tempList.length === 0) {
       updateSelectedEncounter({
         ...selectedEncounter,
+        lastUpdatedOn: new Date().toISOString(),
         creatures: [],
         round: 1,
         activeCreatureId: "",
@@ -63,6 +66,7 @@ export const CreaturesPage = () => {
     } else {
       updateSelectedEncounter({
         ...selectedEncounter,
+        lastUpdatedOn: new Date().toISOString(),
         creatures: sortCreatures(tempList),
       });
     }
@@ -80,6 +84,7 @@ export const CreaturesPage = () => {
 
       updateSelectedEncounter({
         ...selectedEncounter,
+        lastUpdatedOn: new Date().toISOString(),
         creatures: sortCreatures(tempList),
       });
     }
@@ -102,6 +107,7 @@ export const CreaturesPage = () => {
       ...selectedEncounter,
       round,
       activeCreatureId: nextCreatureId,
+      lastUpdatedOn: new Date().toISOString(),
     });
   };
 
@@ -122,6 +128,7 @@ export const CreaturesPage = () => {
       ...selectedEncounter,
       round: newRound,
       activeCreatureId: nextCreatureId,
+      lastUpdatedOn: new Date().toISOString(),
     });
   };
 
@@ -134,6 +141,7 @@ export const CreaturesPage = () => {
         ...selectedEncounter,
         round: 1,
         activeCreatureId: "",
+        lastUpdatedOn: new Date().toISOString(),
       });
 
     const activeCreatureId = selectedEncounter.activeCreatureId;
@@ -147,6 +155,7 @@ export const CreaturesPage = () => {
       return updateSelectedEncounter({
         ...selectedEncounter,
         activeCreatureId: firstCreatureId,
+        lastUpdatedOn: new Date().toISOString(),
       });
 
     const currentIndex = selectedEncounter.creatures.findIndex(
@@ -164,6 +173,7 @@ export const CreaturesPage = () => {
     updateSelectedEncounter({
       ...selectedEncounter,
       round: 1,
+      lastUpdatedOn: new Date().toISOString(),
       activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
     });
 
