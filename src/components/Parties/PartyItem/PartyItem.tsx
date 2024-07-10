@@ -13,6 +13,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { IHero } from "../../../api/parties";
 import { HeroItem } from "../HeroItem/HeroItem";
 import { NewHeroItem } from "../NewHeroItem/NewHeroItem";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 interface IPartyItem {
   name: string;
@@ -20,6 +21,8 @@ interface IPartyItem {
   onAdd: (newHeroName: string) => void;
   onDelete: (id: string) => void;
   onUpdate: (heroIndex: number, updatedHeroName: string) => void;
+  onUpdatePartyName: (newName: string) => void;
+  onDeleteParty: () => void;
 }
 
 export const PartyItem = ({
@@ -28,6 +31,8 @@ export const PartyItem = ({
   onAdd,
   onDelete,
   onUpdate,
+  onUpdatePartyName,
+  onDeleteParty,
 }: IPartyItem) => {
   const { palette } = useTheme();
   const [isHeroListOpen, setIsHeroListOpen] = useState(false);
@@ -55,15 +60,18 @@ export const PartyItem = ({
         >
           {isHeroListOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
-        {/* TODO: BUG HERE ON UPDATE */}
         <TextField
           size="small"
           type="text"
           fullWidth
           defaultValue={name}
+          onChange={({ target }) => onUpdatePartyName(target.value)}
           variant="standard"
           placeholder="Update party name"
         />
+        <IconButton size="small" onClick={onDeleteParty} color="error">
+          <DeleteOutlineIcon />
+        </IconButton>
       </Stack>
 
       <Collapse in={isHeroListOpen} timeout="auto" unmountOnExit>
