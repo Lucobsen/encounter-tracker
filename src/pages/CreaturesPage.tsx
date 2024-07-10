@@ -19,7 +19,7 @@ const sortCreatures = (creatures: ICreature[]) =>
 export const CreaturesPage = () => {
   const { id } = useParams();
   const isMobile = useIsMobile();
-  const { encounters, updateEncounters } = useEncounterContext();
+  const { encounters, updateSelectedEncounter } = useEncounterContext();
 
   if (!isMobile) return <DesktopWarning />;
 
@@ -31,26 +31,22 @@ export const CreaturesPage = () => {
     return <Typography color="error">Something went wrong...</Typography>;
 
   const handleImport = (heroes: IHero[]) =>
-    updateEncounters([
-      {
-        ...selectedEncounter,
-        creatures: heroes.map<ICreature>(({ id, name }) => ({
-          conditions: [],
-          id,
-          name,
-          isHidden: false,
-          initative: " 0",
-        })),
-      },
-    ]);
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      creatures: heroes.map<ICreature>(({ id, name }) => ({
+        conditions: [],
+        id,
+        name,
+        isHidden: false,
+        initative: " 0",
+      })),
+    });
 
   const handleAdd = (newCreature: ICreature) =>
-    updateEncounters([
-      {
-        ...selectedEncounter,
-        creatures: sortCreatures([...selectedEncounter.creatures, newCreature]),
-      },
-    ]);
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      creatures: sortCreatures([...selectedEncounter.creatures, newCreature]),
+    });
 
   const handleDelete = (deletedCreatureId: string) => {
     const tempList = selectedEncounter.creatures.filter(
@@ -58,21 +54,17 @@ export const CreaturesPage = () => {
     );
 
     if (tempList.length === 0) {
-      updateEncounters([
-        {
-          ...selectedEncounter,
-          creatures: [],
-          round: 1,
-          activeCreatureId: "",
-        },
-      ]);
+      updateSelectedEncounter({
+        ...selectedEncounter,
+        creatures: [],
+        round: 1,
+        activeCreatureId: "",
+      });
     } else {
-      updateEncounters([
-        {
-          ...selectedEncounter,
-          creatures: sortCreatures(tempList),
-        },
-      ]);
+      updateSelectedEncounter({
+        ...selectedEncounter,
+        creatures: sortCreatures(tempList),
+      });
     }
   };
 
@@ -86,12 +78,10 @@ export const CreaturesPage = () => {
     if (index >= 0) {
       tempList[index] = updatedCreature;
 
-      updateEncounters([
-        {
-          ...selectedEncounter,
-          creatures: sortCreatures(tempList),
-        },
-      ]);
+      updateSelectedEncounter({
+        ...selectedEncounter,
+        creatures: sortCreatures(tempList),
+      });
     }
   };
 
@@ -108,13 +98,11 @@ export const CreaturesPage = () => {
         ? selectedEncounter.round + 1
         : selectedEncounter.round;
 
-    updateEncounters([
-      {
-        ...selectedEncounter,
-        round,
-        activeCreatureId: nextCreatureId,
-      },
-    ]);
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      round,
+      activeCreatureId: nextCreatureId,
+    });
   };
 
   const decrementTurn = (currentIndex: number, creatureCount: number) => {
@@ -130,13 +118,11 @@ export const CreaturesPage = () => {
 
     if (newRound === 0) return;
 
-    updateEncounters([
-      {
-        ...selectedEncounter,
-        round: newRound,
-        activeCreatureId: nextCreatureId,
-      },
-    ]);
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      round: newRound,
+      activeCreatureId: nextCreatureId,
+    });
   };
 
   const handleTurnChange = (step: -1 | 1) => {
@@ -144,13 +130,11 @@ export const CreaturesPage = () => {
 
     // is there a list of creatures
     if (creatureCount === 0)
-      return updateEncounters([
-        {
-          ...selectedEncounter,
-          round: 1,
-          activeCreatureId: "",
-        },
-      ]);
+      return updateSelectedEncounter({
+        ...selectedEncounter,
+        round: 1,
+        activeCreatureId: "",
+      });
 
     const activeCreatureId = selectedEncounter.activeCreatureId;
     const firstCreatureId = selectedEncounter.creatures[0].id;
@@ -160,12 +144,10 @@ export const CreaturesPage = () => {
       selectedEncounter.creatures.find(({ id }) => id === activeCreatureId) ===
       undefined
     )
-      return updateEncounters([
-        {
-          ...selectedEncounter,
-          activeCreatureId: firstCreatureId,
-        },
-      ]);
+      return updateSelectedEncounter({
+        ...selectedEncounter,
+        activeCreatureId: firstCreatureId,
+      });
 
     const currentIndex = selectedEncounter.creatures.findIndex(
       ({ id }) => id === activeCreatureId
@@ -179,13 +161,11 @@ export const CreaturesPage = () => {
   };
 
   const handleReset = () =>
-    updateEncounters([
-      {
-        ...selectedEncounter,
-        round: 1,
-        activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
-      },
-    ]);
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      round: 1,
+      activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
+    });
 
   return (
     <>
