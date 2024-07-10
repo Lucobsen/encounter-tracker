@@ -1,30 +1,26 @@
 import { Button, Container, Stack } from "@mui/material";
 import { EmptyState } from "./EmptyState";
 import { useState } from "react";
-import { IHero, IParty, getParties, setParties } from "../../../api/parties";
+import { IHero } from "../../../api/parties";
 import { PartyItem } from "../PartyItem/PartyItem";
 import { NamingModal } from "../../shared/Modals/NamingModal";
+import { usePartyContext } from "../../../utils/PartyContext";
 
 export const PartyList = () => {
+  const { partyList, updatePartyList } = usePartyContext();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [partyList, setPartyList] = useState<IParty[]>(getParties());
 
-  const handleOnCreate = (newPartyName: string) => {
-    const updatedList = [
+  const handleOnCreate = (newPartyName: string) =>
+    updatePartyList([
       ...partyList,
       { id: crypto.randomUUID(), heroes: [], name: newPartyName },
-    ];
-
-    setPartyList(updatedList);
-    setParties(updatedList);
-  };
+    ]);
 
   const handleOnAdd = (partyIndex: number, updatedHeroes: IHero[]) => {
     const tempList = [...partyList];
     tempList[partyIndex].heroes = updatedHeroes;
 
-    setPartyList(tempList);
-    setParties(tempList);
+    updatePartyList(tempList);
   };
 
   const handleOnDelete = (partyIndex: number, deletedHeroId: string) => {
@@ -35,8 +31,7 @@ export const PartyList = () => {
 
     tempList[partyIndex].heroes = updatedList;
 
-    setPartyList(tempList);
-    setParties(tempList);
+    updatePartyList(tempList);
   };
 
   const handleOnUpdate = (
@@ -47,8 +42,7 @@ export const PartyList = () => {
     const tempList = [...partyList];
     tempList[partyIndex].heroes[heroIndex].name = updatedHeroName;
 
-    setPartyList(tempList);
-    setParties(tempList);
+    updatePartyList(tempList);
   };
 
   const handleOnUpdatePartyName = (id: string, updatedPartyName: string) => {
@@ -58,15 +52,13 @@ export const PartyList = () => {
 
     party.name = updatedPartyName;
 
-    setPartyList(partyList);
-    setParties(partyList);
+    updatePartyList(partyList);
   };
 
   const handleOnDeleteParty = (deletedId: string) => {
     const updatedList = partyList.filter(({ id }) => id !== deletedId);
 
-    setPartyList(updatedList);
-    setParties(updatedList);
+    updatePartyList(updatedList);
   };
 
   return (
