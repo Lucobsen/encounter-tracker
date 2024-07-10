@@ -27,11 +27,5 @@ export const getEncounters = (): IEncounter[] => {
   return JSON.parse(localEncounters);
 };
 
-export const getEncounterById = (id: string): IEncounter | undefined => {
-  const encounters = getEncounters();
-
-  return encounters.find((encounter) => encounter.id === id);
-};
-
 export const setEncounters = (value: IEncounter[]) =>
   localStorage.setItem(ENCOUNTERS_KEY, JSON.stringify(value));

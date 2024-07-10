@@ -17,21 +17,21 @@ interface IEncounterContextProviderProps {
 export const EncounterContextProvider = ({
   children,
 }: IEncounterContextProviderProps) => {
-  const [encounterList, setEncounterList] = useState<IEncounter[]>(
+  const [encounters, setEncounterList] = useState<IEncounter[]>(
     getEncounters()
   );
 
-  const updateEncounterList = (updatedList: IEncounter[]) => {
+  const updateEncounters = (updatedList: IEncounter[]) => {
     setEncounterList(updatedList);
     setEncounters(updatedList);
   };
 
   const value = useMemo(
     () => ({
-      encounters: encounterList,
-      updateEncounters: updateEncounterList,
+      encounters,
+      updateEncounters,
     }),
-    [encounterList, updateEncounterList]
+    [encounters, updateEncounters]
   );
 
   return (
