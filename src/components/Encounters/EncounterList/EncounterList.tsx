@@ -47,15 +47,16 @@ export const EncounterList = () => {
 
   return (
     <>
-      <Container sx={{ px: 2, pt: 9, pb: 8 }}>
+      <Container sx={{ px: 4, pt: 9, pb: 8 }}>
         {encounters.length > 0 ? (
           <>
             <Stack alignItems="center" spacing={2}>
-              {encounters.map(({ name, id }) => (
+              {encounters.map(({ name, id, lastUpdatedOn, creatures }) => (
                 <EncounterItem
                   key={id}
                   id={id}
                   name={name}
+                  lastUpdatedOn={lastUpdatedOn}
                   onDelete={handleOnDelete}
                   onUpdate={(newName) => handleNameChange(newName, id)}
                 />
