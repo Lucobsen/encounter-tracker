@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mui/material";
+import { Button, Container, Stack } from "@mui/material";
 import { EmptyState } from "./EmptyState";
 import { EncounterItem } from "../EncounterItem/EncounterItem";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +60,7 @@ export const EncounterList = () => {
                 />
               ))}
             </Stack>
-            {/* <Button
+            <Button
               disabled={encounters.length >= 6}
               variant="contained"
               color="success"
@@ -75,7 +75,7 @@ export const EncounterList = () => {
               onClick={() => setIsAddModalOpen(true)}
             >
               Create new encounter
-            </Button> */}
+            </Button>
           </>
         ) : (
           <EmptyState openModal={() => setIsAddModalOpen(true)} />

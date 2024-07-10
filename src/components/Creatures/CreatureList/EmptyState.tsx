@@ -1,7 +1,8 @@
 import { Button, Divider, Stack, Typography, useTheme } from "@mui/material";
-import { IHero, getParties } from "../../../api/parties";
+import { IHero } from "../../../api/parties";
 import { useState } from "react";
 import { ImportModal } from "../../shared/Modals/ImportModal";
+import { usePartyContext } from "../../../utils/PartyContext";
 
 interface IEmptyStateProps {
   onImport: (heroes: IHero[]) => void;
@@ -9,10 +10,10 @@ interface IEmptyStateProps {
 
 export const EmptyState = ({ onImport }: IEmptyStateProps) => {
   const { palette } = useTheme();
-  const parties = getParties();
+  const { partyList } = usePartyContext();
   const [isPartyModalOpen, setIsPartyModalOpen] = useState(false);
 
-  const partiesWithHeros = parties.filter(({ heroes }) => heroes.length > 0);
+  const partiesWithHeros = partyList.filter(({ heroes }) => heroes.length > 0);
 
   const handleOnImport = (heroes: IHero[]) => {
     onImport(heroes);
