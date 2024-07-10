@@ -2,28 +2,18 @@ import { Container, Stack } from "@mui/material";
 import { EmptyState } from "./EmptyState";
 import { EncounterItem } from "../EncounterItem/EncounterItem";
 import { useNavigate } from "react-router-dom";
-import {
-  IEncounter,
-  getEncounters,
-  setEncounters,
-} from "../../../api/encounters";
+import { IEncounter } from "../../../api/encounters";
 import { useState } from "react";
 import { NamingModal } from "../../shared/Modals/NamingModal";
+import { useEncounterContext } from "../../../utils/EncounterContext";
 
 export const EncounterList = () => {
   const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [encounterList, setEncounterList] = useState<IEncounter[]>(
-    getEncounters()
-  );
-
-  const updateEncounters = (updatedEncounters: IEncounter[]) => {
-    setEncounterList(updatedEncounters);
-    setEncounters(updatedEncounters);
-  };
+  const { encounters, updateEncounters } = useEncounterContext();
 
   const handleNameChange = (newName: string, id: string) => {
-    const tempList = [...encounterList];
+    const tempList = [...encounters];
     const index = tempList.findIndex((item) => item.id === id);
 
     if (index >= 0) {
@@ -43,15 +33,13 @@ export const EncounterList = () => {
       activeCreatureId: "",
     };
 
-    updateEncounters([...encounterList, newEncounter]);
+    updateEncounters([...encounters, newEncounter]);
 
     navigate(newEncounter.id);
   };
 
   const handleOnDelete = (deletedId: string) => {
-    const filteredEncounters = encounterList.filter(
-      ({ id }) => id !== deletedId
-    );
+    const filteredEncounters = encounters.filter(({ id }) => id !== deletedId);
 
     updateEncounters(filteredEncounters);
   };
@@ -59,10 +47,10 @@ export const EncounterList = () => {
   return (
     <>
       <Container sx={{ px: 2, pt: 9, pb: 8 }}>
-        {encounterList.length > 0 ? (
+        {encounters.length > 0 ? (
           <>
             <Stack alignItems="center" spacing={2}>
-              {encounterList.map(({ name, id }) => (
+              {encounters.map(({ name, id }) => (
                 <EncounterItem
                   key={id}
                   id={id}
@@ -73,7 +61,7 @@ export const EncounterList = () => {
               ))}
             </Stack>
             {/* <Button
-              disabled={encounterList.length >= 6}
+              disabled={encounters.length >= 6}
               variant="contained"
               color="success"
               sx={{
