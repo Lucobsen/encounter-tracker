@@ -3,7 +3,6 @@ import { createContextUtil } from "./context";
 import { getEncounters, IEncounter, setEncounters } from "../api/encounters";
 import { isBefore } from "date-fns";
 
-// TODO: add sorting
 const sortEncounters = (encounters: IEncounter[]) =>
   encounters.sort((encounterA, encounterB) =>
     isBefore(encounterA.lastUpdatedOn, encounterB.lastUpdatedOn) ? 1 : -1

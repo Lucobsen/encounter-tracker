@@ -1,35 +1,24 @@
 import { IconButton, Stack, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useCreatureContext } from "../../../utils/CreatureContext";
 
 interface IInitialStateProps {
   onAdd: () => void;
-  updateInitative: (init: string) => void;
-  updateName: (name: string) => void;
-  updateHp: (hp: string) => void;
-  isAddDisabled: boolean;
-  initative: string;
-  name: string;
-  hp: string;
 }
 
-export const InitialState = ({
-  onAdd,
-  updateInitative,
-  updateName,
-  updateHp,
-  isAddDisabled,
-  initative,
-  name,
-  hp,
-}: IInitialStateProps) => {
+export const InitialState = ({ onAdd }: IInitialStateProps) => {
+  const { creature, isAddDisabled, setCreature } = useCreatureContext();
+
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       <TextField
         size="small"
         type="number"
         sx={{ width: "40%" }}
-        onChange={({ target }) => updateInitative(target.value)}
-        value={initative}
+        onChange={({ target }) =>
+          setCreature({ ...creature, initative: target.value })
+        }
+        value={creature.initative}
         variant="outlined"
         placeholder="Init"
         required
@@ -39,8 +28,10 @@ export const InitialState = ({
         size="small"
         type="text"
         fullWidth
-        onChange={({ target }) => updateName(target.value)}
-        value={name}
+        onChange={({ target }) =>
+          setCreature({ ...creature, name: target.value })
+        }
+        value={creature.name}
         variant="outlined"
         placeholder="Name"
         required
@@ -50,8 +41,10 @@ export const InitialState = ({
         size="small"
         type="number"
         sx={{ width: "40%" }}
-        onChange={({ target }) => updateHp(target.value)}
-        value={hp}
+        onChange={({ target }) =>
+          setCreature({ ...creature, hp: target.value })
+        }
+        value={creature.hp ?? ""}
         variant="outlined"
         placeholder="HP"
       />

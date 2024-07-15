@@ -6,32 +6,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useCreatureContext } from "../../../utils/CreatureContext";
 
 interface INewCreatureModalProps {
   onAdd: () => void;
-  updateInitative: (init: string) => void;
-  updateName: (name: string) => void;
-  updateHp: (hp: string) => void;
   onClose: () => void;
-  isAddDisabled: boolean;
-  initative: string;
-  name: string;
-  hp: string;
   isOpen: boolean;
 }
 
 export const NewCreatureModal = ({
   onAdd,
-  updateInitative,
-  updateName,
-  updateHp,
-  isAddDisabled,
-  initative,
-  name,
-  hp,
   isOpen,
   onClose,
 }: INewCreatureModalProps) => {
+  const { creature, isAddDisabled, setCreature } = useCreatureContext();
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box
@@ -62,8 +51,10 @@ export const NewCreatureModal = ({
               type="number"
               required
               fullWidth
-              onChange={({ target }) => updateInitative(target.value)}
-              value={initative}
+              onChange={({ target }) =>
+                setCreature({ ...creature, initative: target.value })
+              }
+              value={creature.initative}
               variant="outlined"
               placeholder="Init"
             />
@@ -72,8 +63,10 @@ export const NewCreatureModal = ({
               size="small"
               type="number"
               fullWidth
-              onChange={({ target }) => updateHp(target.value)}
-              value={hp}
+              onChange={({ target }) =>
+                setCreature({ ...creature, hp: target.value })
+              }
+              value={creature?.hp ?? ""}
               variant="outlined"
               placeholder="HP"
             />
@@ -84,8 +77,10 @@ export const NewCreatureModal = ({
             type="text"
             required
             fullWidth
-            onChange={({ target }) => updateName(target.value)}
-            value={name}
+            onChange={({ target }) =>
+              setCreature({ ...creature, name: target.value })
+            }
+            value={creature.name}
             variant="outlined"
             placeholder="Name"
           />
