@@ -7,11 +7,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { RenameModal } from "../../shared/Modals/RenameModal";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { TextModal } from "../../shared/Modals/TextModal";
 import { differenceInHours, format } from "date-fns";
+import { NamingModal } from "../../shared/Modals/NamingModal";
 
 const getTime = (timeValue: string) => {
   const isOverTwentyFourHours =
@@ -89,13 +89,16 @@ export const EncounterItem = ({
         </Grid>
       </Box>
 
-      <RenameModal
+      <NamingModal
         isOpen={isRenameOpen}
-        onClose={(newName) => {
+        onClose={() => setIsRenameOpen(false)}
+        onCreate={(newName) => {
           onUpdate(newName);
           setIsRenameOpen(false);
         }}
-        name={name}
+        label="Encounter Name"
+        placeholder="Enter encounter name"
+        value={name}
       />
 
       <TextModal
