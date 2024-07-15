@@ -1,8 +1,10 @@
 import {
   Box,
+  Divider,
   Grid,
   IconButton,
   Link,
+  Stack,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -28,6 +30,7 @@ interface IEncounterItemProps {
   onUpdate: (newName: string) => void;
   onDelete: (id: string) => void;
   lastUpdatedOn: string;
+  inProgress: boolean;
 }
 
 export const EncounterItem = ({
@@ -36,6 +39,7 @@ export const EncounterItem = ({
   onUpdate,
   onDelete,
   lastUpdatedOn,
+  inProgress,
 }: IEncounterItemProps) => {
   const { palette } = useTheme();
   const [isRenameOpen, setIsRenameOpen] = useState(false);
@@ -64,9 +68,24 @@ export const EncounterItem = ({
             >
               {name}
             </Link>
-            <Typography fontSize="small">
-              Last updated: {getTime(lastUpdatedOn)}
-            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Typography fontSize="small">
+                Updated: {getTime(lastUpdatedOn)}
+              </Typography>
+
+              {inProgress && (
+                <>
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    color={palette.divider}
+                  />
+                  <Typography fontSize="small" color={palette.success.main}>
+                    In Progress
+                  </Typography>
+                </>
+              )}
+            </Stack>
           </Grid>
 
           <Grid item xs={1.5}>
