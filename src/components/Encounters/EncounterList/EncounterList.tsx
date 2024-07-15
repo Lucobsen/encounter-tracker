@@ -32,6 +32,7 @@ export const EncounterList = () => {
       lastUpdatedOn: new Date().toISOString(),
       round: 1,
       activeCreatureId: "",
+      inProgress: false,
     };
 
     updateEncounters([...encounters, newEncounter]);
