@@ -1,5 +1,6 @@
-import { Box, Button, Modal, Stack, TextField, useTheme } from "@mui/material";
+import { Box, IconButton, Modal, Stack, TextField } from "@mui/material";
 import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 
 interface INamingModalProps {
   isOpen: boolean;
@@ -7,6 +8,7 @@ interface INamingModalProps {
   placeholder: string;
   label: string;
   onCreate: (newName: string) => void;
+  value?: string;
 }
 
 export const NamingModal = ({
@@ -15,17 +17,24 @@ export const NamingModal = ({
   placeholder,
   label,
   onCreate,
+  value = "",
 }: INamingModalProps) => {
-  const { palette } = useTheme();
   const [newNameValue, setNewNameValue] = useState("");
 
   return (
-    <Modal open={isOpen} onClose={onClose}>
+    <Modal
+      open={isOpen}
+      onClose={() => {
+        if (newNameValue !== "") onCreate(newNameValue);
+        setNewNameValue("");
+        onClose();
+      }}
+    >
       <Box
         width="80%"
         p={2}
         borderRadius={2}
-        bgcolor={palette.background.default}
+        bgcolor={({ palette }) => palette.background.default}
         position="absolute"
         left="50%"
         top="50%"
@@ -33,24 +42,23 @@ export const NamingModal = ({
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Stack spacing={2}>
+        <Stack direction="row" spacing={1}>
           <TextField
+            multiline
             placeholder={placeholder}
-            defaultValue=""
+            defaultValue={value}
             label={label}
+            fullWidth
             onChange={({ target }) => setNewNameValue(target.value)}
           />
 
-          <Button
+          <IconButton
             disabled={newNameValue === ""}
-            variant="contained"
-            fullWidth
             color="success"
-            sx={{ fontWeight: "bold" }}
             onClick={() => onCreate(newNameValue)}
           >
-            Save
-          </Button>
+            <AddIcon />
+          </IconButton>
         </Stack>
       </Box>
     </Modal>

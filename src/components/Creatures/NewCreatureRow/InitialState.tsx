@@ -49,11 +49,7 @@ export const InitialState = ({ onAdd }: IInitialStateProps) => {
         placeholder="HP"
       />
 
-      <IconButton
-        disabled={isAddDisabled}
-        sx={{ color: ({ palette }) => palette.success.main }}
-        onClick={onAdd}
-      >
+      <IconButton disabled={isAddDisabled} color="success" onClick={onAdd}>
         <AddIcon />
       </IconButton>
     </Stack>
