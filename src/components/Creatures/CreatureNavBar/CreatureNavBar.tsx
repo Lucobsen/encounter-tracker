@@ -11,6 +11,8 @@ interface INavBar {
   hasCreatures: boolean;
   onReset: () => void;
   encounterName: string;
+  inProgress: boolean;
+  startEncounter: () => void;
 }
 
 export const NavBar = ({
@@ -18,6 +20,8 @@ export const NavBar = ({
   round,
   hasCreatures,
   onReset,
+  inProgress,
+  startEncounter,
 }: INavBar) => {
   const { palette } = useTheme();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
@@ -67,17 +71,28 @@ export const NavBar = ({
               </Typography>
             </Stack>
 
-            {hasCreatures && (
-              <Button
-                sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
-                size="small"
-                variant="contained"
-                color="error"
-                onClick={() => setIsResetModalOpen(true)}
-              >
-                Round {round}
-              </Button>
-            )}
+            {hasCreatures &&
+              (inProgress ? (
+                <Button
+                  sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={() => setIsResetModalOpen(true)}
+                >
+                  Round {round}
+                </Button>
+              ) : (
+                <Button
+                  sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
+                  size="small"
+                  variant="contained"
+                  color="success"
+                  onClick={startEncounter}
+                >
+                  Start Encounter
+                </Button>
+              ))}
           </Toolbar>
         </AppBar>
       </Box>

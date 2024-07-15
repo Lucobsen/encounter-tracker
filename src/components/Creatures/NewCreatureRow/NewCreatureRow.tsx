@@ -1,28 +1,20 @@
-import {
-  AppBar,
-  Grid,
-  IconButton,
-  Stack,
-  TextField,
-  Toolbar,
-  useTheme,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { AppBar, Toolbar } from "@mui/material";
 import { ICreature } from "../../../api/encounters";
+import { InitialState } from "./InitialState";
+import { ActiveState } from "./ActiveState";
+import { useState } from "react";
 
+// TODO: add a context provider for NEWCREATURE
 interface INewCreatureRowProps {
   onAdd: (newCreature: ICreature) => void;
   changeTurn: (step: -1 | 1) => void;
-  disableNavigation: boolean;
+  inProgress: boolean;
 }
 
 export const NewCreatureRow = ({
-  disableNavigation,
   onAdd,
   changeTurn,
+  inProgress,
 }: INewCreatureRowProps) => {
   const initalState: ICreature = {
     id: crypto.randomUUID(),
@@ -32,7 +24,6 @@ export const NewCreatureRow = ({
     conditions: [],
   };
 
-  const { palette } = useTheme();
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);
 
   const isAddDisabled = () => {
@@ -56,98 +47,55 @@ export const NewCreatureRow = ({
         top: "auto",
         boxShadow: "none",
         bottom: 0,
-        borderTop: `1px solid ${palette.mode === "light" ? "#000" : "#fff"}`,
+        borderTop: ({ palette }) =>
+          `1px solid ${
+            palette.mode === "light"
+              ? palette.common.black
+              : palette.common.white
+          }`,
       }}
     >
       <Toolbar
         sx={{
-          backgroundColor: palette.mode === "light" ? "#fff" : "#121212",
+          backgroundColor: ({ palette }) =>
+            palette.mode === "light" ? palette.common.white : "#121212",
         }}
       >
-        <Grid container direction="row" alignItems="center">
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              type="number"
-              fullWidth
-              onChange={({ target }) =>
-                setNewCreature({ ...newCreature, initative: target.value })
-              }
-              value={newCreature?.initative ?? ""}
-              variant="outlined"
-              placeholder="Init"
-            />
-          </Grid>
-
-          <Grid item xs={0.25}></Grid>
-
-          <Grid item xs={5}>
-            <TextField
-              size="small"
-              type="text"
-              fullWidth
-              onChange={({ target }) =>
-                setNewCreature({ ...newCreature, name: target.value })
-              }
-              value={newCreature?.name ?? ""}
-              variant="outlined"
-              placeholder="Name"
-            />
-          </Grid>
-
-          <Grid item xs={0.25}></Grid>
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              type="number"
-              fullWidth
-              onChange={({ target }) =>
-                setNewCreature({ ...newCreature, hp: target.value })
-              }
-              value={newCreature?.hp ?? ""}
-              variant="outlined"
-              placeholder="HP"
-            />
-          </Grid>
-
-          <Grid item xs={0.25}></Grid>
-
-          <Grid item xs={1}>
-            <IconButton
-              disabled={isAddDisabled()}
-              sx={{ color: palette.success.main }}
-              onClick={() => {
-                onAdd(newCreature);
-                setNewCreature(initalState);
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-          </Grid>
-
-          <Grid item xs={0.25}></Grid>
-
-          <Grid item xs={1}>
-            <Stack>
-              <IconButton
-                disabled={disableNavigation}
-                sx={{ color: palette.primary.main, p: 0 }}
-                onClick={() => changeTurn(-1)}
-              >
-                <ArrowDropUpIcon />
-              </IconButton>
-
-              <IconButton
-                disabled={disableNavigation}
-                onClick={() => changeTurn(1)}
-                sx={{ color: palette.primary.main, p: 0 }}
-              >
-                <ArrowDropDownIcon />
-              </IconButton>
-            </Stack>
-          </Grid>
-        </Grid>
+        {inProgress ? (
+          <ActiveState
+            resetCreature={() => setNewCreature(initalState)}
+            changeTurn={changeTurn}
+            onAdd={() => {
+              onAdd(newCreature);
+              setNewCreature(initalState);
+            }}
+            isAddDisabled={isAddDisabled()}
+            initative={newCreature?.initative ?? ""}
+            name={newCreature?.name ?? ""}
+            hp={newCreature?.hp ?? ""}
+            updateInitative={(initative) =>
+              setNewCreature({ ...newCreature, initative })
+            }
+            updateName={(name) => setNewCreature({ ...newCreature, name })}
+            updateHp={(hp) => setNewCreature({ ...newCreature, hp })}
+          />
+        ) : (
+          <InitialState
+            onAdd={() => {
+              onAdd(newCreature);
+              setNewCreature(initalState);
+            }}
+            isAddDisabled={isAddDisabled()}
+            initative={newCreature?.initative ?? ""}
+            name={newCreature?.name ?? ""}
+            hp={newCreature?.hp ?? ""}
+            updateInitative={(initative) =>
+              setNewCreature({ ...newCreature, initative })
+            }
+            updateName={(name) => setNewCreature({ ...newCreature, name })}
+            updateHp={(hp) => setNewCreature({ ...newCreature, hp })}
+          />
+        )}
       </Toolbar>
     </AppBar>
   );

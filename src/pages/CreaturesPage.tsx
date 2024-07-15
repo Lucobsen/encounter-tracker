@@ -175,6 +175,16 @@ export const CreaturesPage = () => {
       round: 1,
       lastUpdatedOn: new Date().toISOString(),
       activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
+      inProgress: true,
+    });
+
+  const handleStartEncounter = () =>
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      round: 1,
+      lastUpdatedOn: new Date().toISOString(),
+      activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
+      inProgress: true,
     });
 
   return (
@@ -184,6 +194,8 @@ export const CreaturesPage = () => {
         encounterName={selectedEncounter.name}
         round={selectedEncounter.round}
         hasCreatures={selectedEncounter.creatures.length > 0}
+        startEncounter={handleStartEncounter}
+        inProgress={selectedEncounter.inProgress}
       />
       <CreatureList
         activeCreatureId={selectedEncounter.activeCreatureId}
@@ -193,9 +205,9 @@ export const CreaturesPage = () => {
         onImport={handleImport}
       />
       <NewCreatureRow
-        disableNavigation={selectedEncounter.creatures.length === 0}
         changeTurn={handleTurnChange}
         onAdd={handleAdd}
+        inProgress={selectedEncounter.inProgress}
       />
     </>
   );
