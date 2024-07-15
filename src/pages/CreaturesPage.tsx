@@ -8,6 +8,7 @@ import { IHero } from "../api/parties";
 import { useEncounterContext } from "../utils/EncounterContext";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { CreatureContextProvider } from "../utils/CreatureContext";
 
 const sortCreatures = (creatures: ICreature[]) =>
   creatures.sort(
@@ -204,11 +205,13 @@ export const CreaturesPage = () => {
         onDelete={handleDelete}
         onImport={handleImport}
       />
-      <NewCreatureRow
-        changeTurn={handleTurnChange}
-        onAdd={handleAdd}
-        inProgress={selectedEncounter.inProgress}
-      />
+      <CreatureContextProvider>
+        <NewCreatureRow
+          changeTurn={handleTurnChange}
+          onAdd={handleAdd}
+          inProgress={selectedEncounter.inProgress}
+        />
+      </CreatureContextProvider>
     </>
   );
 };

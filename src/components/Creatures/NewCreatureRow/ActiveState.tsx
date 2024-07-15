@@ -2,32 +2,15 @@ import { Button, IconButton, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { NewCreatureModal } from "./NewCreatureModal";
+import { useCreatureContext } from "../../../utils/CreatureContext";
 
 interface IActiveStateProps {
   changeTurn: (step: -1 | 1) => void;
   onAdd: () => void;
-  updateInitative: (init: string) => void;
-  updateName: (name: string) => void;
-  updateHp: (hp: string) => void;
-  resetCreature: () => void;
-  isAddDisabled: boolean;
-  initative: string;
-  name: string;
-  hp: string;
 }
 
-export const ActiveState = ({
-  changeTurn,
-  onAdd,
-  updateInitative,
-  updateName,
-  updateHp,
-  resetCreature,
-  isAddDisabled,
-  initative,
-  name,
-  hp,
-}: IActiveStateProps) => {
+export const ActiveState = ({ changeTurn, onAdd }: IActiveStateProps) => {
+  const { resetCreature } = useCreatureContext();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
@@ -61,13 +44,6 @@ export const ActiveState = ({
 
       <NewCreatureModal
         onAdd={onAdd}
-        updateInitative={updateInitative}
-        updateName={updateName}
-        updateHp={updateHp}
-        isAddDisabled={isAddDisabled}
-        initative={initative}
-        name={name}
-        hp={hp}
         isOpen={isAddModalOpen}
         onClose={() => {
           resetCreature();
