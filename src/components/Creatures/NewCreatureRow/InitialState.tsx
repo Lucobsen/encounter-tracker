@@ -15,8 +15,6 @@ export const InitialState = ({ onAdd }: IInitialStateProps) => {
     isHidden: false,
     conditions: [],
   };
-
-  const { palette } = useTheme();
   const [newCreature, setNewCreature] = useState<ICreature>(initalState);
 
   const isAddDisabled = () => {
@@ -45,6 +43,7 @@ export const InitialState = ({ onAdd }: IInitialStateProps) => {
         value={newCreature?.initative ?? ""}
         variant="outlined"
         placeholder="Init"
+        required
       />
 
       <TextField
@@ -57,6 +56,7 @@ export const InitialState = ({ onAdd }: IInitialStateProps) => {
         value={newCreature?.name ?? ""}
         variant="outlined"
         placeholder="Name"
+        required
       />
 
       <TextField
@@ -73,7 +73,7 @@ export const InitialState = ({ onAdd }: IInitialStateProps) => {
 
       <IconButton
         disabled={isAddDisabled()}
-        sx={{ color: palette.success.main }}
+        sx={{ color: ({ palette }) => palette.success.main }}
         onClick={() => {
           onAdd(newCreature);
           setNewCreature(initalState);

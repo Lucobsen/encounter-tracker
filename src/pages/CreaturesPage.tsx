@@ -181,6 +181,9 @@ export const CreaturesPage = () => {
   const handleStartEncounter = () =>
     updateSelectedEncounter({
       ...selectedEncounter,
+      round: 1,
+      lastUpdatedOn: new Date().toISOString(),
+      activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
       inProgress: true,
     });
 
