@@ -186,8 +186,8 @@ export const CreaturesPage = () => {
       ...selectedEncounter,
       round: 1,
       lastUpdatedOn: new Date().toISOString(),
-      activeCreatureId: selectedEncounter.creatures[0]?.id ?? "",
-      inProgress: true,
+      activeCreatureId: "",
+      inProgress: false,
     });
 
   const handleStartEncounter = () =>
