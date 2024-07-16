@@ -5,6 +5,7 @@ export interface ICreature {
   hp?: string;
   isHidden: boolean;
   conditions: string[];
+  isEnemy: boolean;
 }
 
 export interface IEncounter {
@@ -29,6 +30,13 @@ export const getEncounters = (): IEncounter[] => {
 
   return encounters.map((encounter) => ({
     ...encounter,
+    creatures: encounter.creatures.map((creature) => ({
+      ...creature,
+      isEnemy:
+        creature.isEnemy !== undefined
+          ? creature.isEnemy
+          : creature.hp === undefined,
+    })),
     inProgress:
       encounter.inProgress !== undefined
         ? encounter.inProgress

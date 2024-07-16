@@ -41,6 +41,7 @@ export const CreaturesPage = () => {
         name,
         isHidden: false,
         initative: " 0",
+        isEnemy: false,
       })),
     });
 
