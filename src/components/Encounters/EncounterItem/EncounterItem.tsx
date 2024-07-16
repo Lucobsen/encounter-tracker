@@ -31,6 +31,7 @@ interface IEncounterItemProps {
   onDelete: (id: string) => void;
   lastUpdatedOn: string;
   inProgress: boolean;
+  creatureCount: number;
 }
 
 export const EncounterItem = ({
@@ -40,6 +41,7 @@ export const EncounterItem = ({
   onDelete,
   lastUpdatedOn,
   inProgress,
+  creatureCount,
 }: IEncounterItemProps) => {
   const { palette } = useTheme();
   const [isRenameOpen, setIsRenameOpen] = useState(false);
@@ -71,6 +73,16 @@ export const EncounterItem = ({
             <Stack direction="row" spacing={1}>
               <Typography fontSize="small">
                 Updated: {getTime(lastUpdatedOn)}
+              </Typography>
+
+              <Divider
+                orientation="vertical"
+                flexItem
+                color={palette.divider}
+              />
+
+              <Typography fontSize="small">
+                {`${creatureCount === 0 ? "No" : creatureCount} Creatures`}
               </Typography>
 
               {inProgress && (

@@ -74,7 +74,12 @@ export const NavBar = ({
             {hasCreatures &&
               (inProgress ? (
                 <Button
-                  sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
+                  sx={{
+                    maxHeight: 32,
+                    whiteSpace: "nowrap",
+                    minWidth: 82,
+                    ml: 1,
+                  }}
                   size="small"
                   variant="contained"
                   color="error"
@@ -84,7 +89,12 @@ export const NavBar = ({
                 </Button>
               ) : (
                 <Button
-                  sx={{ maxHeight: 32, whiteSpace: "nowrap", minWidth: 82 }}
+                  sx={{
+                    maxHeight: 32,
+                    whiteSpace: "nowrap",
+                    minWidth: 152,
+                    ml: 1,
+                  }}
                   size="small"
                   variant="contained"
                   color="success"
