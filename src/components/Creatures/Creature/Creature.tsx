@@ -28,7 +28,7 @@ export const Creature = ({
   onDelete,
   hasCurrentTurn = false,
 }: ICreatureProps) => {
-  const { id, conditions, name, initative, isHidden, hp } = creature;
+  const { id, conditions, name, initative, isHidden, hp, isEnemy } = creature;
 
   const listItemRef = useRef<HTMLLIElement>(null);
   const { palette } = useTheme();
@@ -87,7 +87,7 @@ export const Creature = ({
           boxShadow={
             hasCurrentTurn
               ? `0 0 8px 2px ${
-                  hp !== undefined ? palette.error.main : palette.primary.main
+                  isEnemy ? palette.error.main : palette.primary.main
                 }`
               : "none"
           }

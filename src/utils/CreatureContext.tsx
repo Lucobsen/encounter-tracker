@@ -25,6 +25,7 @@ export const CreatureContextProvider = ({
     initative: "",
     isHidden: false,
     conditions: [],
+    isEnemy: true,
   };
 
   const [creature, setCreature] = useState<ICreature>(initalState);

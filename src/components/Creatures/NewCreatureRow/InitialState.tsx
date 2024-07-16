@@ -1,4 +1,11 @@
-import { IconButton, MenuItem, Stack, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useCreatureContext } from "../../../utils/CreatureContext";
 import { useState } from "react";
@@ -94,6 +101,19 @@ export const InitialState = ({
             </MenuItem>
           ))}
         </TextField>
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              defaultChecked
+              color="error"
+              onChange={(_event, checked) =>
+                setCreature({ ...creature, isEnemy: checked })
+              }
+            />
+          }
+          label="ENEMY CREATURE?"
+        />
       </Stack>
     </Stack>
   );

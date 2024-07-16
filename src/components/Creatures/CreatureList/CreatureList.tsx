@@ -22,7 +22,7 @@ export const CreatureList = ({
   const hasCreatures = creatureList.length > 0;
 
   return (
-    <Container sx={{ px: 2, pt: 9, pb: 8 }}>
+    <Container sx={{ px: 2, pt: 9, pb: 10 }}>
       {hasCreatures ? (
         <List disablePadding>
           {creatureList.map((creature) => (
