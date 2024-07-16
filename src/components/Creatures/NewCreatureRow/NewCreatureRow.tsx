@@ -3,22 +3,37 @@ import { ICreature } from "../../../api/encounters";
 import { InitialState } from "./InitialState";
 import { ActiveState } from "./ActiveState";
 import { useCreatureContext } from "../../../utils/CreatureContext";
+import { letterMapping } from "../../../models/models";
 
 interface INewCreatureRowProps {
-  onAdd: (newCreature: ICreature) => void;
+  onAddSingleCreature: (newCreature: ICreature) => void;
+  onAddMultipleCreatures: (newCreature: ICreature[]) => void;
   changeTurn: (step: -1 | 1) => void;
   inProgress: boolean;
 }
 
 export const NewCreatureRow = ({
-  onAdd,
+  onAddSingleCreature,
+  onAddMultipleCreatures,
   changeTurn,
   inProgress,
 }: INewCreatureRowProps) => {
   const { creature, resetCreature } = useCreatureContext();
 
-  const handleOnAdd = () => {
-    onAdd(creature);
+  const handleSingleAdd = () => {
+    onAddSingleCreature(creature);
+    resetCreature();
+  };
+
+  const handleMultiAdd = (creatureQuantity: number) => {
+    const keyArray = Array.from(Array(creatureQuantity).keys());
+    const creatures: ICreature[] = keyArray.map((count) => ({
+      ...creature,
+      name: `${creature.name} (${letterMapping[count]})`,
+      id: crypto.randomUUID(),
+    }));
+
+    onAddMultipleCreatures(creatures);
     resetCreature();
   };
 
@@ -39,14 +54,18 @@ export const NewCreatureRow = ({
     >
       <Toolbar
         sx={{
+          p: ({ spacing }) => spacing(1.5, 1),
           backgroundColor: ({ palette }) =>
             palette.mode === "light" ? palette.common.white : "#121212",
         }}
       >
         {inProgress ? (
-          <ActiveState changeTurn={changeTurn} onAdd={handleOnAdd} />
+          <ActiveState changeTurn={changeTurn} onAdd={handleSingleAdd} />
         ) : (
-          <InitialState onAdd={handleOnAdd} />
+          <InitialState
+            onSingleAdd={handleSingleAdd}
+            onMultiAdd={handleMultiAdd}
+          />
         )}
       </Toolbar>
     </AppBar>

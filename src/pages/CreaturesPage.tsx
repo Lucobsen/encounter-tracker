@@ -44,11 +44,21 @@ export const CreaturesPage = () => {
       })),
     });
 
-  const handleAdd = (newCreature: ICreature) =>
+  const handleSingleAdd = (newCreature: ICreature) =>
     updateSelectedEncounter({
       ...selectedEncounter,
       lastUpdatedOn: new Date().toISOString(),
       creatures: sortCreatures([...selectedEncounter.creatures, newCreature]),
+    });
+
+  const handleMultiAdd = (newCreatures: ICreature[]) =>
+    updateSelectedEncounter({
+      ...selectedEncounter,
+      lastUpdatedOn: new Date().toISOString(),
+      creatures: sortCreatures([
+        ...selectedEncounter.creatures,
+        ...newCreatures,
+      ]),
     });
 
   const handleDelete = (deletedCreatureId: string) => {
@@ -208,7 +218,8 @@ export const CreaturesPage = () => {
       <CreatureContextProvider>
         <NewCreatureRow
           changeTurn={handleTurnChange}
-          onAdd={handleAdd}
+          onAddSingleCreature={handleSingleAdd}
+          onAddMultipleCreatures={handleMultiAdd}
           inProgress={selectedEncounter.inProgress}
         />
       </CreatureContextProvider>

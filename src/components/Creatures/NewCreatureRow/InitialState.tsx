@@ -1,57 +1,100 @@
-import { IconButton, Stack, TextField } from "@mui/material";
+import { IconButton, MenuItem, Stack, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useCreatureContext } from "../../../utils/CreatureContext";
+import { useState } from "react";
+import { quantities } from "../../../models/models";
 
 interface IInitialStateProps {
-  onAdd: () => void;
+  onSingleAdd: () => void;
+  onMultiAdd: (creatureQuantity: number) => void;
 }
 
-export const InitialState = ({ onAdd }: IInitialStateProps) => {
+export const InitialState = ({
+  onSingleAdd,
+  onMultiAdd,
+}: IInitialStateProps) => {
   const { creature, isAddDisabled, setCreature } = useCreatureContext();
+  const [creatureQuantity, setCreatureQuantity] = useState(1);
 
   return (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      <TextField
-        size="small"
-        type="number"
-        sx={{ width: "40%" }}
-        onChange={({ target }) =>
-          setCreature({ ...creature, initative: target.value })
-        }
-        value={creature.initative}
-        variant="outlined"
-        placeholder="Init"
-        required
-      />
+    <Stack spacing={1}>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <TextField
+          size="small"
+          type="number"
+          label="Init"
+          sx={{ width: "40%" }}
+          onChange={({ target }) =>
+            setCreature({ ...creature, initative: target.value })
+          }
+          value={creature.initative}
+          variant="outlined"
+          placeholder="Init"
+          required
+        />
 
-      <TextField
-        size="small"
-        type="text"
-        fullWidth
-        onChange={({ target }) =>
-          setCreature({ ...creature, name: target.value })
-        }
-        value={creature.name}
-        variant="outlined"
-        placeholder="Name"
-        required
-      />
+        <TextField
+          size="small"
+          type="text"
+          label="Name"
+          fullWidth
+          onChange={({ target }) =>
+            setCreature({ ...creature, name: target.value })
+          }
+          value={creature.name}
+          variant="outlined"
+          placeholder="Name"
+          required
+        />
 
-      <TextField
-        size="small"
-        type="number"
-        sx={{ width: "40%" }}
-        onChange={({ target }) =>
-          setCreature({ ...creature, hp: target.value })
-        }
-        value={creature.hp ?? ""}
-        variant="outlined"
-        placeholder="HP"
-      />
+        <TextField
+          size="small"
+          type="number"
+          label="HP"
+          sx={{ width: "40%" }}
+          onChange={({ target }) =>
+            setCreature({ ...creature, hp: target.value })
+          }
+          value={creature.hp ?? ""}
+          variant="outlined"
+          placeholder="HP"
+        />
 
-      <IconButton disabled={isAddDisabled} color="success" onClick={onAdd}>
-        <AddIcon />
-      </IconButton>
+        <IconButton
+          disabled={isAddDisabled}
+          color="success"
+          onClick={() => {
+            if (creatureQuantity > 1) {
+              onMultiAdd(creatureQuantity);
+              setCreatureQuantity(1);
+            } else {
+              onSingleAdd();
+            }
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+      </Stack>
+
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <TextField
+          select
+          size="small"
+          type="number"
+          value={creatureQuantity}
+          sx={{ width: "20%" }}
+          label="Quantity"
+          onChange={({ target }) =>
+            setCreatureQuantity(Number.parseInt(target.value))
+          }
+        >
+          {quantities.map(({ label, value }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Stack>
     </Stack>
   );
 };
