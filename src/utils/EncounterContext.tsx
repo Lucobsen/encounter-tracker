@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { createContextUtil } from "./context";
 import { getEncounters, IEncounter, setEncounters } from "../api/encounters";
 import { isBefore } from "date-fns";
@@ -28,23 +28,26 @@ export const EncounterContextProvider = ({
     getEncounters()
   );
 
-  const updateEncounters = (updatedList: IEncounter[]) => {
+  const updateEncounters = useCallback((updatedList: IEncounter[]) => {
     const sortedList = sortEncounters(updatedList);
 
     setEncounterList(sortedList);
     setEncounters(sortedList);
-  };
+  }, []);
 
-  const updateSelectedEncounter = (updatedEncounter: IEncounter) => {
-    const otherEncounters = encounters.filter(
-      ({ id }) => id !== updatedEncounter.id
-    );
-    const updatedList = [...otherEncounters, updatedEncounter];
-    const sortedList = sortEncounters(updatedList);
+  const updateSelectedEncounter = useCallback(
+    (updatedEncounter: IEncounter) => {
+      const otherEncounters = encounters.filter(
+        ({ id }) => id !== updatedEncounter.id
+      );
+      const updatedList = [...otherEncounters, updatedEncounter];
+      const sortedList = sortEncounters(updatedList);
 
-    setEncounterList(sortedList);
-    setEncounters(sortedList);
-  };
+      setEncounterList(sortedList);
+      setEncounters(sortedList);
+    },
+    []
+  );
 
   const value = useMemo(
     () => ({

@@ -47,7 +47,7 @@ export const CreatureContextProvider = ({
       resetCreature: () => setCreature(initalState),
       isAddDisabled: noInit || noName,
     }),
-    [creature, setCreature, noInit, noName]
+    [creature, setCreature, noInit, noName, initalState]
   );
 
   return (
