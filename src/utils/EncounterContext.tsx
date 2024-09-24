@@ -8,22 +8,22 @@ const sortEncounters = (encounters: IEncounter[]) =>
     isBefore(encounterA.lastUpdatedOn, encounterB.lastUpdatedOn) ? 1 : -1
   );
 
-interface IEncounterContextInterface {
+type EncounterContextProps = {
   encounters: IEncounter[];
   updateEncounters: (updatedList: IEncounter[]) => void;
   updateSelectedEncounter: (updatedEncounter: IEncounter) => void;
-}
+};
 
 export const [useEncounterContext, ProviderEncounterContext] =
-  createContextUtil<IEncounterContextInterface>();
+  createContextUtil<EncounterContextProps>();
 
-interface IEncounterContextProviderProps {
+type EncounterContextProviderProps = {
   children: ReactNode;
-}
+};
 
 export const EncounterContextProvider = ({
   children,
-}: IEncounterContextProviderProps) => {
+}: EncounterContextProviderProps) => {
   const [encounters, setEncounterList] = useState<IEncounter[]>(
     getEncounters()
   );
@@ -52,7 +52,7 @@ export const EncounterContextProvider = ({
       updateEncounters,
       updateSelectedEncounter,
     }),
-    [encounters, updateEncounters]
+    [encounters, updateEncounters, updateSelectedEncounter]
   );
 
   return (

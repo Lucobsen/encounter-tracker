@@ -2,23 +2,23 @@ import { Dispatch, ReactNode, useMemo, useState } from "react";
 import { createContextUtil } from "./context";
 import { ICreature } from "../api/encounters";
 
-interface ICreatureContextInterface {
+type CreatureContextProps = {
   creature: ICreature;
   setCreature: Dispatch<React.SetStateAction<ICreature>>;
   resetCreature: () => void;
   isAddDisabled: boolean;
-}
+};
 
 export const [useCreatureContext, ProviderCreatureContext] =
-  createContextUtil<ICreatureContextInterface>();
+  createContextUtil<CreatureContextProps>();
 
-interface ICreatureContextProviderProps {
+type CreatureContextProviderProps = {
   children: ReactNode;
-}
+};
 
 export const CreatureContextProvider = ({
   children,
-}: ICreatureContextProviderProps) => {
+}: CreatureContextProviderProps) => {
   const initalState: ICreature = {
     id: crypto.randomUUID(),
     name: "",
@@ -29,8 +29,6 @@ export const CreatureContextProvider = ({
   };
 
   const [creature, setCreature] = useState<ICreature>(initalState);
-
-  const resetCreature = () => setCreature(initalState);
 
   const noInit =
     creature.initative === undefined ||
@@ -46,10 +44,10 @@ export const CreatureContextProvider = ({
     () => ({
       creature,
       setCreature,
-      resetCreature,
+      resetCreature: () => setCreature(initalState),
       isAddDisabled: noInit || noName,
     }),
-    [creature, setCreature, resetCreature, noInit, noName]
+    [creature, setCreature, noInit, noName]
   );
 
   return (

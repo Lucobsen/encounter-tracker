@@ -8,7 +8,7 @@ import { PartyPage } from "./pages/PartyPage";
 import { PartyContextProvider } from "./utils/PartyContext";
 import { EncounterContextProvider } from "./utils/EncounterContext";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, setUserProperties } from "firebase/analytics";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -34,6 +34,8 @@ const App = () => {
 
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+
+  setUserProperties(analytics, { theme: prefersDarkMode ? "dark" : "light" });
 
   return (
     <ThemeProvider theme={mainTheme}>
