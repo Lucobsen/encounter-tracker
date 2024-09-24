@@ -46,7 +46,7 @@ export const EncounterContextProvider = ({
       setEncounterList(sortedList);
       setEncounters(sortedList);
     },
-    []
+    [encounters]
   );
 
   const value = useMemo(

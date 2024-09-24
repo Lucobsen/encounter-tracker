@@ -19,16 +19,14 @@ type CreatureContextProviderProps = {
 export const CreatureContextProvider = ({
   children,
 }: CreatureContextProviderProps) => {
-  const initalState: ICreature = {
+  const [creature, setCreature] = useState<ICreature>({
     id: crypto.randomUUID(),
     name: "",
     initative: "",
     isHidden: false,
     conditions: [],
     isEnemy: true,
-  };
-
-  const [creature, setCreature] = useState<ICreature>(initalState);
+  });
 
   const noInit =
     creature.initative === undefined ||
@@ -44,10 +42,18 @@ export const CreatureContextProvider = ({
     () => ({
       creature,
       setCreature,
-      resetCreature: () => setCreature(initalState),
+      resetCreature: () =>
+        setCreature({
+          id: crypto.randomUUID(),
+          name: "",
+          initative: "",
+          isHidden: false,
+          conditions: [],
+          isEnemy: true,
+        }),
       isAddDisabled: noInit || noName,
     }),
-    [creature, setCreature, noInit, noName, initalState]
+    [creature, setCreature, noInit, noName]
   );
 
   return (
