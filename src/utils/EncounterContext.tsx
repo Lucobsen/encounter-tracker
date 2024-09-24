@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { createContextUtil } from "./context";
 import { getEncounters, IEncounter, setEncounters } from "../api/encounters";
 import { isBefore } from "date-fns";
@@ -8,43 +8,46 @@ const sortEncounters = (encounters: IEncounter[]) =>
     isBefore(encounterA.lastUpdatedOn, encounterB.lastUpdatedOn) ? 1 : -1
   );
 
-interface IEncounterContextInterface {
+type EncounterContextProps = {
   encounters: IEncounter[];
   updateEncounters: (updatedList: IEncounter[]) => void;
   updateSelectedEncounter: (updatedEncounter: IEncounter) => void;
-}
+};
 
 export const [useEncounterContext, ProviderEncounterContext] =
-  createContextUtil<IEncounterContextInterface>();
+  createContextUtil<EncounterContextProps>();
 
-interface IEncounterContextProviderProps {
+type EncounterContextProviderProps = {
   children: ReactNode;
-}
+};
 
 export const EncounterContextProvider = ({
   children,
-}: IEncounterContextProviderProps) => {
+}: EncounterContextProviderProps) => {
   const [encounters, setEncounterList] = useState<IEncounter[]>(
     getEncounters()
   );
 
-  const updateEncounters = (updatedList: IEncounter[]) => {
+  const updateEncounters = useCallback((updatedList: IEncounter[]) => {
     const sortedList = sortEncounters(updatedList);
 
     setEncounterList(sortedList);
     setEncounters(sortedList);
-  };
+  }, []);
 
-  const updateSelectedEncounter = (updatedEncounter: IEncounter) => {
-    const otherEncounters = encounters.filter(
-      ({ id }) => id !== updatedEncounter.id
-    );
-    const updatedList = [...otherEncounters, updatedEncounter];
-    const sortedList = sortEncounters(updatedList);
+  const updateSelectedEncounter = useCallback(
+    (updatedEncounter: IEncounter) => {
+      const otherEncounters = encounters.filter(
+        ({ id }) => id !== updatedEncounter.id
+      );
+      const updatedList = [...otherEncounters, updatedEncounter];
+      const sortedList = sortEncounters(updatedList);
 
-    setEncounterList(sortedList);
-    setEncounters(sortedList);
-  };
+      setEncounterList(sortedList);
+      setEncounters(sortedList);
+    },
+    [encounters]
+  );
 
   const value = useMemo(
     () => ({
@@ -52,7 +55,7 @@ export const EncounterContextProvider = ({
       updateEncounters,
       updateSelectedEncounter,
     }),
-    [encounters, updateEncounters]
+    [encounters, updateEncounters, updateSelectedEncounter]
   );
 
   return (

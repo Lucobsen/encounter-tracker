@@ -2,34 +2,32 @@ import { ReactNode, useMemo, useState } from "react";
 import { getParties, IParty, setParties } from "../api/parties";
 import { createContextUtil } from "./context";
 
-interface IPartyContextInterface {
+type PartyContextProps = {
   partyList: IParty[];
   updatePartyList: (updatedList: IParty[]) => void;
-}
+};
 
 export const [usePartyContext, ProviderPartyContext] =
-  createContextUtil<IPartyContextInterface>();
+  createContextUtil<PartyContextProps>();
 
-interface IPartyContextProviderProps {
+type PartyContextProviderProps = {
   children: ReactNode;
-}
+};
 
 export const PartyContextProvider = ({
   children,
-}: IPartyContextProviderProps) => {
+}: PartyContextProviderProps) => {
   const [partyList, setPartyList] = useState<IParty[]>(getParties());
-
-  const updatePartyList = (updatedList: IParty[]) => {
-    setPartyList(updatedList);
-    setParties(updatedList);
-  };
 
   const value = useMemo(
     () => ({
       partyList,
-      updatePartyList,
+      updatePartyList: (updatedList: IParty[]) => {
+        setPartyList(updatedList);
+        setParties(updatedList);
+      },
     }),
-    [partyList, updatePartyList]
+    [partyList]
   );
 
   return <ProviderPartyContext value={value}>{children}</ProviderPartyContext>;

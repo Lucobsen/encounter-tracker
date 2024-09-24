@@ -1,14 +1,14 @@
 import { ThemeProvider, createTheme, useMediaQuery } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import { useMemo } from "react";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { EncountersPage } from "./pages/EncountersPage";
 import { CreaturesPage } from "./pages/CreaturesPage";
 import { PartyPage } from "./pages/PartyPage";
 import { PartyContextProvider } from "./utils/PartyContext";
 import { EncounterContextProvider } from "./utils/EncounterContext";
+import { initializeApp } from "firebase/app";
+import { getAnalytics, setUserProperties } from "firebase/analytics";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -22,6 +22,21 @@ const App = () => {
     [prefersDarkMode]
   );
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyD5a2tJLd-yEofQHE_ZRaORMTIn2LicM_M",
+    authDomain: "combat-chronicle.firebaseapp.com",
+    projectId: "combat-chronicle",
+    storageBucket: "combat-chronicle.appspot.com",
+    messagingSenderId: "412434927610",
+    appId: "1:412434927610:web:aadcc1faf5ae1a0e699e43",
+    measurementId: "G-MS3DY19SVX",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  setUserProperties(analytics, { theme: prefersDarkMode ? "dark" : "light" });
+
   return (
     <ThemeProvider theme={mainTheme}>
       <PartyContextProvider>
@@ -34,8 +49,6 @@ const App = () => {
                 <Route element={<PartyPage />} path="parties" />
               </Routes>
             </BrowserRouter>
-            <Analytics />
-            <SpeedInsights />
           </SnackbarProvider>
         </EncounterContextProvider>
       </PartyContextProvider>

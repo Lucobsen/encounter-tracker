@@ -2,35 +2,31 @@ import { Dispatch, ReactNode, useMemo, useState } from "react";
 import { createContextUtil } from "./context";
 import { ICreature } from "../api/encounters";
 
-interface ICreatureContextInterface {
+type CreatureContextProps = {
   creature: ICreature;
   setCreature: Dispatch<React.SetStateAction<ICreature>>;
   resetCreature: () => void;
   isAddDisabled: boolean;
-}
+};
 
 export const [useCreatureContext, ProviderCreatureContext] =
-  createContextUtil<ICreatureContextInterface>();
+  createContextUtil<CreatureContextProps>();
 
-interface ICreatureContextProviderProps {
+type CreatureContextProviderProps = {
   children: ReactNode;
-}
+};
 
 export const CreatureContextProvider = ({
   children,
-}: ICreatureContextProviderProps) => {
-  const initalState: ICreature = {
+}: CreatureContextProviderProps) => {
+  const [creature, setCreature] = useState<ICreature>({
     id: crypto.randomUUID(),
     name: "",
     initative: "",
     isHidden: false,
     conditions: [],
     isEnemy: true,
-  };
-
-  const [creature, setCreature] = useState<ICreature>(initalState);
-
-  const resetCreature = () => setCreature(initalState);
+  });
 
   const noInit =
     creature.initative === undefined ||
@@ -46,10 +42,18 @@ export const CreatureContextProvider = ({
     () => ({
       creature,
       setCreature,
-      resetCreature,
+      resetCreature: () =>
+        setCreature({
+          id: crypto.randomUUID(),
+          name: "",
+          initative: "",
+          isHidden: false,
+          conditions: [],
+          isEnemy: true,
+        }),
       isAddDisabled: noInit || noName,
     }),
-    [creature, setCreature, resetCreature, noInit, noName]
+    [creature, setCreature, noInit, noName]
   );
 
   return (

@@ -1,0 +1,4 @@
+20:58:37.311 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+20:58:37.471 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+20:58:38.926 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - combat-chronicle-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 131ms, init: 0ms
+20:58:38.995 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace combat-chronicle-default-rtdb status Active to Active
